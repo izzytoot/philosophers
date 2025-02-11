@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:24:12 by root              #+#    #+#             */
-/*   Updated: 2025/02/10 18:05:45 by root             ###   ########.fr       */
+/*   Updated: 2025/02/11 18:01:13 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,21 @@
 typedef pthread_mutex_t t_mtx;
 typedef struct s_program;
 
+typedef enum s_mutex_code	
+{
+	LOCK,
+	UNLOCK,
+	INIT,
+	CREATE,
+	JOIN,
+	DETACH,
+	DESTROY,
+}	t_mutex_code;
+
 typedef struct s_fork
 {
 	t_mtx	mutex_fork;
+	int		fork_id;
 	bool	left; //?
 	bool	right; //?
 }	t_fork;
@@ -66,8 +78,7 @@ typedef struct s_program
 	long	time_to_eat;
 	long	time_to_sleep;
 	int		max_meals;
-	bool	init_error;
-	t_fork	*fprls; //array of forks
+	t_fork	*forks; //array of forks
 	t_philo *philos; //array of philos
 }	t_program;
 
@@ -79,6 +90,8 @@ typedef struct s_program
 int	main(int ac, char **av);
 
 //01_parsing.c
+long	ft_atol(char *str);
+long	conv_and_check_limits(t_program *program, char *av);
 void	input_parsing(t_program *program, char **av);
 
 //02_program_init
