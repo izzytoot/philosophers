@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:24:12 by root              #+#    #+#             */
-/*   Updated: 2025/02/13 16:47:57 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/13 17:27:58 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,6 @@ void	check_mutex_error(t_program *ptogram, int status, t_code code);
 
 // 05_utils
 void	print_error_and_exit(t_program *program, char *message, int fd);
-//void	free_and_clean(t_program *program);
+void	free_and_clean(t_program *program);
 			
 #endif
