@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:54:47 by root              #+#    #+#             */
-/*   Updated: 2025/02/11 18:05:15 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/13 16:13:49 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	main(int ac, char **av)
 	{
 		input_parsing(&program, av);
 		program_init(&program);
-		start_simulation(&program);
-		free_and_clean (&program);
+	//	start_simulation(&program);
+	//	free_and_clean (&program);
 	}
 	else
 		print_error_and_exit(&program, RED"Error!\nRun: ./philo <nb_of_philos><time_to_die><time_to_eat><time_to_sleep><max_meals>[optional]\n"RESET, 2);

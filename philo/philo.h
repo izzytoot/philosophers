@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:24:12 by root              #+#    #+#             */
-/*   Updated: 2025/02/11 18:01:13 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/13 16:47:57 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,18 @@
 /* ************************************************************************** */
 
 typedef pthread_mutex_t t_mtx;
-typedef struct s_program;
+typedef struct t_program s_program;
 
-typedef enum s_mutex_code	
+typedef enum s_code	
 {
 	LOCK,
 	UNLOCK,
 	INIT,
-	CREATE,
-	JOIN,
-	DETACH,
 	DESTROY,
-}	t_mutex_code;
+    CREATE,
+    JOIN,
+    DETACH,
+}	t_code;
 
 typedef struct s_fork
 {
@@ -68,7 +68,6 @@ typedef struct s_philo
 	t_fork		*left_fork;
 	t_fork		*right_fork;
 	t_mtx		mutex_philo;
-	t_program	program;
 }	t_philo;
 
 typedef struct s_program
@@ -80,6 +79,8 @@ typedef struct s_program
 	int		max_meals;
 	t_fork	*forks; //array of forks
 	t_philo *philos; //array of philos
+	t_mtx	write_mutex;
+	t_mtx	access_mutex;
 }	t_program;
 
 /* ************************************************************************** */
@@ -90,16 +91,19 @@ typedef struct s_program
 int	main(int ac, char **av);
 
 //01_parsing.c
-long	ft_atol(char *str);
+long	ft_atol(const char *str);
 long	conv_and_check_limits(t_program *program, char *av);
 void	input_parsing(t_program *program, char **av);
 
-//02_program_init
+//02_program_init.c
 void	program_init(t_program *program);
-void	start_simulation(t_program	*program);
+void	philo_init(t_program *program);
+void	assign_forks(t_program * program, t_philo *philo, t_fork *fork, int i);
+void	handle_mutex(t_program *program, t_mtx *mtx, t_code code);
+void	check_mutex_error(t_program *ptogram, int status, t_code code);
 
 // 05_utils
 void	print_error_and_exit(t_program *program, char *message, int fd);
-void	free_and_clean(t_program *program);
+//void	free_and_clean(t_program *program);
 			
 #endif
