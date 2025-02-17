@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:54:47 by root              #+#    #+#             */
-/*   Updated: 2025/02/17 12:45:42 by root             ###   ########.fr       */
+/*   Updated: 2025/02/17 19:20:13 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int ac, char **av)
 		input_parsing(&program, av);
 		program_init(&program);
 		philo_init(&program, &philo);
-	//	init_simulation(&program);
+		start_dinner(&program);
 	//	free_and_clean (&program);
 	}
 	else

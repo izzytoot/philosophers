@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:24:12 by root              #+#    #+#             */
-/*   Updated: 2025/02/17 12:45:53 by root             ###   ########.fr       */
+/*   Updated: 2025/02/17 19:50:31 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,20 @@
 typedef pthread_mutex_t t_mtx;
 typedef struct t_program s_program;
 
+typedef enum s_time
+{
+	MICROSSECONDS,
+	MILLISECONDS,
+	SECONDS,
+}	t_time;
+
+typedef enum s_ph_status
+{
+	EATING,
+	SLEEPING,
+	THINKING,
+}	t_ph_status;
+
 typedef enum s_code	
 {
 	LOCK,
@@ -63,11 +77,12 @@ typedef struct s_philo
 	int			id;
 	int			nb_meals;
 	bool		max_meals_reached; // for optional arg
-	// long meal_time // time for next meal against time to die
-	pthread_t	philo_thread;
+	long		started_dinning_at; // time for next meal against time to die
+	pthread_t	*philo_thread;
 	t_mtx		mutex_philo;
 	t_fork		*fork1;
 	t_fork		*fork2;
+	t_program	*program;
 }	t_philo;
 
 typedef struct s_program
@@ -81,6 +96,11 @@ typedef struct s_program
 	t_philo **philos; //array of philos
 	t_mtx	write_mutex;
 	t_mtx	access_mutex;
+	long	starting_time;
+	int		nb_philos_active;
+	bool	all_threads_active;
+	bool	time_ended;
+	pthread_t *philo_death;
 }	t_program;
 
 /* ************************************************************************** */
@@ -105,10 +125,28 @@ void	handle_mutex(t_program *program, t_mtx *mtx, t_code code);
 void	handle_thread(t_program *program, pthread_t *thread_info, void *(*ph_func)(void *), void *t_program, t_code code);
 
 //04_simulation.c
-void	init_simulation(t_program **program);
+void	start_dinner(t_program **program);
 
-// 05_utils
+//05_thread_functions.c
+void	*lets_feast(t_philo *philo);
+
+// 06_eat_sleep_think.c
+void	philo_eating(t_philo *philo);
+void	philo_sleeping(t_philo *philo);
+void	philo_thinking(t_philo *philo);
+
+// 07_time_functions.c
+long	get_time(t_program *program, t_time	time_unit);
+long	set_long_time(t_program *program, t_mtx *mtx, long *result, long time);
+void	timming_to_eat(t_philo *philo);
+
+// 08_utils
+void	change_bool_value(t_program *program, t_mtx *mtx, bool *boolean, bool value);
+bool	true_or_false(t_program *program, t_mtx *mtx, bool *value);
+void	count_active_philos(t_program *program, t_mtx *mtx, int counter);
+
+// 09_closing_dinner.c
 void	print_error_and_exit(t_program *program, char *message, int fd);
 void	free_and_clean(t_program *program);
-			
+
 #endif

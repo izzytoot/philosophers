@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:02:13 by root              #+#    #+#             */
-/*   Updated: 2025/02/17 12:47:41 by root             ###   ########.fr       */
+/*   Updated: 2025/02/17 18:10:13 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,13 @@ void	philo_init(t_program **program, t_philo **philo)
 			(*philo)->id = i + 1;
 			(*philo)->nb_meals = 0;
 			(*philo)->max_meals_reached = false;
-		//	(*philo)->philo_thread = malloc(sizeof(pthread_t));
+			(*philo)->started_dinning_at = 0;
+			(*philo)->philo_thread = malloc(sizeof(pthread_t));
+			if (!(*philo)->philo_thread)
+				print_error_and_exit(*program, RED"Error allocating memory.\n"RESET, 2);
 			handle_mutex(*program, &(*philo)->mutex_philo, INIT);
 			assign_forks(*program, *philo, (*program)->forks, i);
+			(*philo)->program = (*program);
 			i++;
 		}
 }
@@ -74,5 +78,13 @@ void	program_init(t_program **program)
 	}
 	handle_mutex(*program, &(*program)->write_mutex, INIT); //perceber melhor
 	handle_mutex(*program, &(*program)->access_mutex, INIT); //perceber melhor
+	(*program)->starting_time = 0;
+	(*program)->nb_philos_active = 0;
+	(*program)->all_threads_active = false;
+	(*program)->time_ended = false;
+	(*program)->philo_death = malloc(sizeof(pthread_t));
+	if (!(*program)->philo_death)	
+		print_error_and_exit(*program, RED"Error allocating memory.\n"RESET, 2);
 }
+
 

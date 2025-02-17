@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 15:27:00 by root              #+#    #+#             */
-/*   Updated: 2025/02/17 12:50:48 by root             ###   ########.fr       */
+/*   Updated: 2025/02/17 15:45:36 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	handle_mutex(t_program *program, t_mtx *mtx, t_code code)
 	else
 		print_error_and_exit(program, RED"Error! Wrong mutex code.\n"RESET, 2);
 }
-/*
+
 void	handle_thread(t_program *program, pthread_t *thread_info, void *(*ph_func)(void *), void *t_program, t_code code)
 {
 	if (code == CREATE)
@@ -47,15 +47,14 @@ void	handle_thread(t_program *program, pthread_t *thread_info, void *(*ph_func)(
 	}
 	else if (code == JOIN)
 	{	
-		if (pthread_join() != 0)
+		if (pthread_join(*thread_info, NULL) == 0)
 			print_error_and_exit(program, RED"Error with thread_join.\n"RESET, 2);
 	}
 	else if (code == DETACH)
 	{
-		if (pthread_detach() != 0)
+		if (pthread_detach(*thread_info) != 0)
 			print_error_and_exit(program, RED"Error with thread_detach.\n"RESET, 2);
 	}	
 	else
 		print_error_and_exit(&program, RED"Error! Wrong thread code.\n"RESET, 2);
 }
-*/

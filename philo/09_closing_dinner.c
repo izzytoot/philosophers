@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   05_utils.c                                         :+:      :+:    :+:   */
+/*   09_closing_dinner.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 17:46:34 by root              #+#    #+#             */
-/*   Updated: 2025/02/17 12:48:08 by root             ###   ########.fr       */
+/*   Created: 2025/02/17 19:50:08 by root              #+#    #+#             */
+/*   Updated: 2025/02/17 19:51:01 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
 
 void	free_and_clean(t_program *program)
 {
@@ -22,13 +21,15 @@ void	free_and_clean(t_program *program)
 	{
 		while (++i < program->nb_philos)
 		{
-//			free(program->philos[i]->philo_thread);
+			free(program->philos[i]->philo_thread);
 			free(program->philos[i]);	
 		}
 		free(program->philos);
 	}
 	if (program->forks)
 		free(program->forks);
+	if (program->philo_death)
+		free(program->philo_death);
 	free(program);
 }
 
@@ -50,4 +51,3 @@ void	print_error_and_exit(t_program *program, char *message, int fd)
 	}
 	exit(1);
 }
-
