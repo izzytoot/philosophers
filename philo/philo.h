@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:24:12 by root              #+#    #+#             */
-/*   Updated: 2025/02/13 17:27:58 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/17 11:47:39 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ typedef struct s_program
 	long	time_to_sleep;
 	int		max_meals;
 	t_fork	*forks; //array of forks
-	t_philo *philos; //array of philos
+	t_philo **philos; //array of philos
 	t_mtx	write_mutex;
 	t_mtx	access_mutex;
 }	t_program;
@@ -93,14 +93,21 @@ int	main(int ac, char **av);
 //01_parsing.c
 long	ft_atol(const char *str);
 long	conv_and_check_limits(t_program *program, char *av);
-void	input_parsing(t_program *program, char **av);
+void	input_parsing(t_program **program, char **av);
 
-//02_program_init.c
-void	program_init(t_program *program);
-void	philo_init(t_program *program);
+//02_program_and_philo_init.c
+void	program_init(t_program **program, t_philo **philo);
+void	philo_init(t_program **program, t_philo **philo);
 void	assign_forks(t_program * program, t_philo *philo, t_fork *fork, int i);
+
+//03_handle_mutex_and_threads.c
 void	handle_mutex(t_program *program, t_mtx *mtx, t_code code);
-void	check_mutex_error(t_program *ptogram, int status, t_code code);
+void	check_mutex_error(t_program *ptogram, int mtx_action, t_code code);
+void	check_thread_error(t_program *program, int thread_action, t_code code);
+void	handle_thread(t_program *program, pthread_t *thread_info, void *(*foo)(void *), void *t_program, t_code code);
+
+//04_simulation.c
+void	init_simulation(t_program	**program);
 
 // 05_utils
 void	print_error_and_exit(t_program *program, char *message, int fd);

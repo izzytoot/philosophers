@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   01_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:44:32 by root              #+#    #+#             */
-/*   Updated: 2025/02/13 16:53:14 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/14 20:09:06 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,21 @@ long	conv_and_check_limits(t_program *program, char *av)
 	return(checked_nb);
 }
 
-void	input_parsing(t_program *program, char **av)
+void	input_parsing(t_program **program, char **av)
 {
-	program->nb_philos = conv_and_check_limits(program, av[1]);
-	if (program->nb_philos > 200 || program->nb_philos < 1)
-		print_error_and_exit(program, RED"Error! Philos must be between 1 and 200.\n"RESET, 2);
-	program->time_to_die = conv_and_check_limits(program, av[2]) * 1000;
-	program->time_to_eat = conv_and_check_limits(program, av[3]) * 1000;
-	program->time_to_sleep = conv_and_check_limits(program, av[4]) * 1000;
-	if (program->time_to_die < 60000 || program->time_to_eat < 60000 || program->time_to_sleep < 60000)
-		print_error_and_exit(program, RED"Error!Time values must be at least 60 seconds.\n"RESET, 2);
+	(*program) = malloc(sizeof(t_program));
+	if (!*program)
+		print_error_and_exit(*program, RED"Error allocating memory.\n"RESET, 2);
+	(*program)->nb_philos = conv_and_check_limits(*program, av[1]);
+	if ((*program)->nb_philos > 200 || (*program)->nb_philos < 1)
+		print_error_and_exit(*program, RED"Error! Philos must be between 1 and 200.\n"RESET, 2);
+	(*program)->time_to_die = conv_and_check_limits(*program, av[2]) * 1000;
+	(*program)->time_to_eat = conv_and_check_limits(*program, av[3]) * 1000;
+	(*program)->time_to_sleep = conv_and_check_limits(*program, av[4]) * 1000;
+	if ((*program)->time_to_die < 60000 || (*program)->time_to_eat < 60000 || (*program)->time_to_sleep < 60000)
+		print_error_and_exit(*program, RED"Error!Time values must be at least 60 seconds.\n"RESET, 2);
 	if(av[5])
-		program->max_meals = conv_and_check_limits(program, av[5]);
+		(*program)->max_meals = conv_and_check_limits(*program, av[5]);
 	else
-		program->max_meals = -1;
+		(*program)->max_meals = -1;
 }

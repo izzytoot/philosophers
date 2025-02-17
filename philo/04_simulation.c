@@ -1,50 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   05_utils.c                                         :+:      :+:    :+:   */
+/*   04_simulation.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 17:46:34 by root              #+#    #+#             */
-/*   Updated: 2025/02/14 20:07:38 by root             ###   ########.fr       */
+/*   Created: 2025/02/14 18:27:17 by root              #+#    #+#             */
+/*   Updated: 2025/02/17 10:51:42 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-
-void	free_and_clean(t_program *program)
-{
-	int	i;
-
-	i = -1;
-	if (program->philos)
-	{
-		while (++i < program->nb_philos)
-			free(program->philos[i]);
-		free(program->philos);
-	}
-	if (program->forks)
-		free(program->forks);
-	free(program);
-}
-
-void	print_error_and_exit(t_program *program, char *message, int fd)
+void	init_simulation(t_program **program)
 {
 	int	i;
 
 	i = 0;
-	if (!program)
+	if((*program)->max_meals == 0)
 		return ;
-	free_and_clean(program);
-	if (message)
-	{
-		while(message[i])
-		{
-			write(fd, &message[i], 1);
-			i++;
-		}	
-	}
-	exit(1);
+	if((*program)->nb_philos == 1)
+		handle_thread(*program, &(*program)->philos[0]->philo_thread, uni_philo, (*program)->philos[0], CREATE)
 }
 
+handle_thread(t_program *program, pthread_t *thread_info, void *(*foo)(void *), void *t_data, t_code code)

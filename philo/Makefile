@@ -6,7 +6,7 @@
 #    By: root <root@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/10 15:54:41 by root              #+#    #+#              #
-#    Updated: 2025/02/10 18:03:13 by root             ###   ########.fr        #
+#    Updated: 2025/02/14 18:23:26 by root             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 #==============================================================================#
 NAME = philo
 HEADER_PATH = philo.h
-SRCS = 00_main.c 01_parsing.c 02_program_init.c 05_utils.c
+SRCS = 00_main.c 01_parsing.c 02_program_and_philo_init.c 03_handle_mutex_and_threads.c 05_utils.c
 OBJS = $(SRCS:.c=.o)
 #==============================================================================#
 #                            FLAGS & COMMANDS                                  #
