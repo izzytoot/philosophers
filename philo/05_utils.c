@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:46:34 by root              #+#    #+#             */
-/*   Updated: 2025/02/14 20:07:38 by root             ###   ########.fr       */
+/*   Updated: 2025/02/17 12:48:08 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	free_and_clean(t_program *program)
 	if (program->philos)
 	{
 		while (++i < program->nb_philos)
-			free(program->philos[i]);
+		{
+//			free(program->philos[i]->philo_thread);
+			free(program->philos[i]);	
+		}
 		free(program->philos);
 	}
 	if (program->forks)
