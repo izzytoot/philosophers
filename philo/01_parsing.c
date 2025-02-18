@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:44:32 by root              #+#    #+#             */
-/*   Updated: 2025/02/14 20:09:06 by root             ###   ########.fr       */
+/*   Updated: 2025/02/18 16:11:44 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,7 @@ void	input_parsing(t_program **program, char **av)
 		(*program)->max_meals = conv_and_check_limits(*program, av[5]);
 	else
 		(*program)->max_meals = -1;
+	(*program)->time_to_think = (*program)->time_to_die - ((*program)->time_to_eat + (*program)->time_to_sleep);
+	if ((*program)->time_to_think < 0)
+		(*program)->time_to_think = 0;
 }

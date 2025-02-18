@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 15:27:00 by root              #+#    #+#             */
-/*   Updated: 2025/02/17 15:45:36 by root             ###   ########.fr       */
+/*   Updated: 2025/02/18 16:14:55 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,5 @@ void	handle_thread(t_program *program, pthread_t *thread_info, void *(*ph_func)(
 			print_error_and_exit(program, RED"Error with thread_detach.\n"RESET, 2);
 	}	
 	else
-		print_error_and_exit(&program, RED"Error! Wrong thread code.\n"RESET, 2);
+		print_error_and_exit(program, RED"Error! Wrong thread code.\n"RESET, 2);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   06_time_functions.c                                :+:      :+:    :+:   */
+/*   07_time_functions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:47:50 by root              #+#    #+#             */
-/*   Updated: 2025/02/17 19:38:20 by root             ###   ########.fr       */
+/*   Updated: 2025/02/18 18:39:09 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ long	get_time(t_program *program, t_time	time_unit)
 	return (0);
 }
 
-long	set_long_time(t_program *program, t_mtx *mtx, long *result, long time)
+void	set_long_time(t_program *program, t_mtx *mtx, long *result, long time)
 {
 	handle_mutex(program, mtx, LOCK);
 	*result = time;
@@ -39,7 +39,28 @@ long	set_long_time(t_program *program, t_mtx *mtx, long *result, long time)
 void	timming_to_eat(t_philo *philo)
 {
 	if(philo->id % 2 == 0)
-		usleep(30000);
+		my_usleep(philo->program, 30000);
 	else
-		philo_thinking(philo, true);
+		philo_thinking(philo);
+}
+
+void	my_usleep(t_program *program, long sleep_time)
+{
+	long	start;
+	long	time_passed;
+	long	time_remaining;
+
+	start = get_time(program, MICROSSECONDS);
+	while ((get_time(program, MICROSSECONDS) - start) < sleep_time)
+	{
+		if (true_or_false(program, &program->access_mutex, &program->time_is_up))
+			break ;
+		time_passed = get_time(program, MICROSSECONDS) - start;
+		time_remaining = sleep_time - time_passed;
+		if (time_remaining > 10000)
+			usleep(time_remaining / 2);
+		else
+			while ((get_time(program, MICROSSECONDS) - start) < sleep_time)
+				;
+	}
 }

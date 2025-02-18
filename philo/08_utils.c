@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:46:34 by root              #+#    #+#             */
-/*   Updated: 2025/02/18 14:16:50 by root             ###   ########.fr       */
+/*   Updated: 2025/02/18 18:25:58 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,20 @@ void	print_ph_status(t_philo *philo, t_ph_status status)
 {
 	long time_passed;
 
-	time_passed = (get_time(philo->program, MILLISECONDS))- (philo->program->starting_time);
-	if (!true_or_false(philo->program, &philo->program->access_mutex, philo->program->time_ended))
+	time_passed = (get_time(philo->program, MILLISECONDS)) - (philo->program->starting_time);
+	if (!true_or_false(philo->program, &philo->program->access_mutex, &philo->program->time_is_up))
 	{
 		handle_mutex(philo->program, &philo->program->access_mutex, LOCK);
 		if (status == TOOK_FORK)
-			printf("%ld"GREEN" %d has taken a fork"RESET" %s", time_passed, philo->id, "U+1F374
-");
+			printf("%-6ld %d has taken a fork"RESET" %s\n", time_passed, philo->id, "\U0001f374");
 		else if (status == EATING)
-			printf("%ld"GREEN" %d is eating"RESET" %s", time_passed, philo->id, "U+1F60B");
+			printf("%-6ld"GREEN" %d is eating"RESET" %s\n", time_passed, philo->id, "\U0001f60B");
 		else if (status == SLEEPING)
-			printf("%ld"GREEN" %d is sleeping"RESET" %s", time_passed, philo->id, "U+1F634");
+			printf("%-6ld %d is sleeping"RESET" %s\n", time_passed, philo->id, "\U0001f634");
 		else if (status == THINKING)
-			printf("%ld"GREEN" %d is thinking"RESET" %s", time_passed, philo->id, "U+1F914");
+			printf("%-6ld %d is thinking"RESET" %s\n", time_passed, philo->id, "\U0001f914");
 		else if (status == DIED)
-			printf("%ld"RED" %d died"RESET" %s", time_passed, philo->id, "U+2620");
+			printf("%-6ld"RED" %d died"RESET" %s\n", time_passed, philo->id, "\U0002f620");
 
 	}
 	handle_mutex(philo->program, &philo->program->access_mutex, UNLOCK);

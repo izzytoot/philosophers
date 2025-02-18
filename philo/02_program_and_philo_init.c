@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:02:13 by root              #+#    #+#             */
-/*   Updated: 2025/02/17 18:10:13 by root             ###   ########.fr       */
+/*   Updated: 2025/02/18 17:54:10 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	program_init(t_program **program)
 	(*program)->starting_time = 0;
 	(*program)->nb_philos_active = 0;
 	(*program)->all_threads_active = false;
-	(*program)->time_ended = false;
+	(*program)->time_is_up = false;
 	(*program)->philo_death = malloc(sizeof(pthread_t));
 	if (!(*program)->philo_death)	
 		print_error_and_exit(*program, RED"Error allocating memory.\n"RESET, 2);

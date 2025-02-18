@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:24:12 by root              #+#    #+#             */
-/*   Updated: 2025/02/18 14:04:15 by root             ###   ########.fr       */
+/*   Updated: 2025/02/18 18:40:33 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 /* ************************************************************************** */
 
 typedef pthread_mutex_t t_mtx;
-typedef struct t_program s_program;
+typedef struct s_program t_program;
 
 typedef enum s_time
 {
@@ -48,6 +48,7 @@ typedef enum s_time
 
 typedef enum s_ph_status
 {
+	TOOK_FORK,
 	EATING,
 	SLEEPING,
 	THINKING,
@@ -92,6 +93,7 @@ typedef struct s_program
 	long	time_to_die;
 	long	time_to_eat;
 	long	time_to_sleep;
+	long	time_to_think;
 	int		max_meals;
 	t_fork	*forks; //array of forks
 	t_philo **philos; //array of philos
@@ -100,7 +102,7 @@ typedef struct s_program
 	long	starting_time;
 	int		nb_philos_active;
 	bool	all_threads_active;
-	bool	time_ended;
+	bool	time_is_up;
 	pthread_t *philo_death;
 }	t_program;
 
@@ -129,17 +131,20 @@ void	handle_thread(t_program *program, pthread_t *thread_info, void *(*ph_func)(
 void	start_dinner(t_program **program);
 
 //05_thread_functions.c
-void	*lets_feast(t_philo *philo);
+void	*lets_feast(void *arg);
+void	*death_confirm(void *program);
 
-// 06_eat_sleep_think.c
+// 06_eat_sleep_think_die.c
 void	philo_eating(t_philo *philo);
 void	philo_sleeping(t_philo *philo);
 void	philo_thinking(t_philo *philo);
+bool	philo_died(t_philo	*philo);
 
 // 07_time_functions.c
 long	get_time(t_program *program, t_time	time_unit);
-long	set_long_time(t_program *program, t_mtx *mtx, long *result, long time);
+void	set_long_time(t_program *program, t_mtx *mtx, long *result, long time);
 void	timming_to_eat(t_philo *philo);
+void	my_usleep(t_program *program, long sleep_time);
 
 // 08_utils
 void	change_bool_value(t_program *program, t_mtx *mtx, bool *boolean, bool value);
