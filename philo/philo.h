@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:24:12 by root              #+#    #+#             */
-/*   Updated: 2025/02/17 19:50:31 by root             ###   ########.fr       */
+/*   Updated: 2025/02/18 14:04:15 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef enum s_ph_status
 	EATING,
 	SLEEPING,
 	THINKING,
+	DIED,
 }	t_ph_status;
 
 typedef enum s_code	
@@ -142,8 +143,9 @@ void	timming_to_eat(t_philo *philo);
 
 // 08_utils
 void	change_bool_value(t_program *program, t_mtx *mtx, bool *boolean, bool value);
-bool	true_or_false(t_program *program, t_mtx *mtx, bool *value);
+bool	true_or_false(t_program *program, t_mtx *mtx, bool *variable);
 void	count_active_philos(t_program *program, t_mtx *mtx, int counter);
+void	print_ph_status(t_philo *philo, t_ph_status status);
 
 // 09_closing_dinner.c
 void	print_error_and_exit(t_program *program, char *message, int fd);
