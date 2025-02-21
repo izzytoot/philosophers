@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:24:12 by root              #+#    #+#             */
-/*   Updated: 2025/02/21 13:36:08 by root             ###   ########.fr       */
+/*   Updated: 2025/02/21 18:28:11 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ typedef enum s_code
 typedef struct s_philo
 {
 	t_data		*data;
-	pthread_t	*ph_thread;
+	pthread_t	ph_thread;
 	int			ph_id;
 	int			meal_count;
 	bool		ph_eating;
@@ -109,8 +109,8 @@ typedef struct s_philo
 
 typedef struct s_data
 {
-	pthread_t		*data_thread;
-	pthread_t		*mon_thread;
+	pthread_t		data_thread;
+	pthread_t		mon_thread;
 	t_philo			*ph;
 	long			nb_ph;
 	long			max_meals;
@@ -133,19 +133,19 @@ typedef struct s_data
 int	main(int ac, char **av);
 
 //01_parsing.c
-void	input_parsing_and_sort(t_data **data, char **av);
+void	input_parsing_and_sort(t_data *data, char **av);
 void	basic_checker(t_data *data, char *av);
 void	init_input_data(t_data *data, char **av);
 long	conv_and_check(t_data *data, char *av);
 
 //02_init.c
-void	program_init(t_data **data);
+void	program_init(t_data *data);
 void	alloc_memory_data(t_data *data);
 void	init_philos(t_data *data);
 void	assign_forks(t_data *data);
 
 //03_routine.c
-void	start_dinner(t_data **data);
+void	start_dinner(t_data *data);
 void	*dinner_routine(void *ph_ptr);
 void	*pre_dinner_check(void *ph_ptr);
 void	*monitor(void *data_ptr);

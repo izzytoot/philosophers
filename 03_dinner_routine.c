@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:27:17 by root              #+#    #+#             */
-/*   Updated: 2025/02/21 16:59:03 by root             ###   ########.fr       */
+/*   Updated: 2025/02/21 18:30:27 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,37 +79,44 @@ void	*dinner_routine(void *ph_ptr)
 	philo = (t_philo *)ph_ptr;
 	time_left = philo->data->time_to_die + get_time(philo->data, MILLISECONDS);
 	set_time_var(philo->data, &philo->acc_mtx_ph, &philo->time_left, time_left);
-	handle_thread(philo->data, philo->ph_thread, &pre_dinner_check, philo, CREATE);
+	pthread_create(&philo->ph_thread, NULL, &pre_dinner_check, &philo);
+//	handle_thread(philo->data, philo->ph_thread, &pre_dinner_check, philo, CREATE);
 	if(!philo->ph_dead)
 	{
 		ph_eating(philo);
 		ph_sleeping(philo);
 		ph_thinking(philo);
 	}
-	handle_thread(philo->data, philo->ph_thread, NULL, NULL, JOIN);
+	pthread_join(philo->ph_thread, NULL);
+//	handle_thread(philo->data, philo->ph_thread, NULL, NULL, JOIN);
 	return (NULL);
 }
-void	start_dinner(t_data **data)
+void	start_dinner(t_data *data)
 {
 	int	i;
 		
-	(*data)->start_meal_time = get_time(*data, MILLISECONDS);
-	if ((*data)->max_meals == 0)
+	data->start_meal_time = get_time(data, MILLISECONDS);
+	if (data->max_meals == 0)
 		return ;
-	else if ((*data)->nb_ph == 1)
+	else if (data->nb_ph == 1)
 	{	
-		handle_thread(*data, (*data)->ph[0].ph_thread, &mr_lonely, &(*data)->ph[0], CREATE);
-		handle_thread(*data, (*data)->ph[0].ph_thread, NULL, NULL, DETACH);
+		pthread_create(&data->ph[0].ph_thread, NULL, &mr_lonely, &data->ph[0]);
+		//handle_thread(data, data->ph[0].ph_thread, &mr_lonely, &data->ph[0], CREATE);
+		pthread_detach(data->ph[0].ph_thread);
+		//handle_thread(data, data->ph[0].ph_thread, NULL, NULL, DETACH);
 	}
 	else
 	{
 		i = -1;	
-		while(++i < (*data)->nb_ph)
-			handle_thread(*data, (*data)->ph[i].ph_thread, &dinner_routine, &(*data)->ph[i], CREATE);
-		my_usleep(*data, 100);
+		while(++i < data->nb_ph)
+			pthread_create(&data->ph[i].ph_thread, NULL, &dinner_routine, &data->ph[i]);
+		//	handle_thread(data, data->ph[i].ph_thread, &dinner_routine, &data->ph[i], CREATE);
+		my_usleep(data, 100);
 	}
-	handle_thread(*data, (*data)->mon_thread, &monitor, &data, CREATE);
+	pthread_create(&data->mon_thread, NULL, &monitor, &data);
+//	handle_thread(data, data->mon_thread, &monitor, &data, CREATE);
 	i = -1;
-	while(++i < (*data)->nb_ph)
-		handle_thread(*data, (*data)->ph[i].ph_thread, NULL, NULL, JOIN);
+	while(++i < (data)->nb_ph)
+		pthread_join(data->ph[i].ph_thread, NULL);
+	//	handle_thread(data, data->ph[i].ph_thread, NULL, NULL, JOIN);
 }

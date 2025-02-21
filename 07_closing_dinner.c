@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:50:08 by root              #+#    #+#             */
-/*   Updated: 2025/02/21 17:14:24 by root             ###   ########.fr       */
+/*   Updated: 2025/02/21 18:32:16 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	free_and_clean(t_data *data)
 		//	handle_mutex(data, &data->ph[i].r_fork_mtx, DESTROY);
 		//	handle_mutex(data, &data->ph[i].l_fork_mtx, DESTROY);
 		//	handle_mutex(data, &data->forks[i], DESTROY);
-			free(data->ph[i].ph_thread);
-			data->ph[i].ph_thread = NULL;
 		}
 		free(data->ph);
 		data->ph = NULL;
@@ -35,16 +33,6 @@ void	free_and_clean(t_data *data)
 	{
 		free(data->forks);
 		data->forks = NULL;
-	}
-	if (data->data_thread)
-	{
-		free(data->data_thread);
-		data->data_thread = NULL;
-	}
-	if (data->mon_thread)
-	{
-		free(data->mon_thread);
-		data->mon_thread = NULL;
 	}
 //	handle_mutex(data, &data->write_mtx, DESTROY);
 //	handle_mutex(data, &data->acc_mtx, DESTROY);
@@ -68,5 +56,5 @@ void	error_and_exit(t_data *data, char *message, int fd)
 			i++;
 		}	
 	}
-	exit(1);
+	exit(EXIT_FAILURE);
 }

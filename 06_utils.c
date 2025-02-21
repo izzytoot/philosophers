@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:46:34 by root              #+#    #+#             */
-/*   Updated: 2025/02/21 16:26:39 by root             ###   ########.fr       */
+/*   Updated: 2025/02/21 18:19:42 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	handle_mutex(t_data *data, t_mtx *mtx, t_code code)
 	else
 		error_and_exit(data, RED ERR_MTX_CODE RES, 2);
 }
-
+/*
 void	handle_thread(t_data *data, pthread_t *thread, void *(*function)(void *), void *t_data, t_code code)
 {
 	if (code == CREATE)
@@ -58,7 +58,7 @@ void	handle_thread(t_data *data, pthread_t *thread, void *(*function)(void *), v
 	else
 		error_and_exit(data, RED ERR_TH_CODE RES, 2);
 }
-
+*/
 void	set_bool_var(t_data *data, t_mtx *mtx, bool *boolean, bool value)
 {
 	handle_mutex(data, mtx, LOCK);
