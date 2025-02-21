@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:24:12 by root              #+#    #+#             */
-/*   Updated: 2025/02/21 18:28:11 by root             ###   ########.fr       */
+/*   Updated: 2025/02/21 20:03:06 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,8 @@ typedef struct s_data
 	__uint64_t		time_to_sleep;
 	__uint64_t		start_meal_time;
 	bool			ph_dead;
-	bool			all_ph_full; 
+	bool			all_ph_full;
+	bool			threads_ready;
 	t_mtx			*forks;
 	t_mtx			write_mtx;
 	t_mtx			acc_mtx;

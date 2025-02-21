@@ -6,11 +6,28 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:27:17 by root              #+#    #+#             */
-/*   Updated: 2025/02/21 18:30:27 by root             ###   ########.fr       */
+/*   Updated: 2025/02/21 20:07:31 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "myphilo.h"
+
+bool    get_bool(t_data *data, t_mtx *mtx, bool *value)
+{
+    bool ret;
+
+    handle_mutex(data, mtx, LOCK);
+    ret = *value;
+    handle_mutex(data, mtx, UNLOCK);
+    return (ret);
+
+}
+
+void    wait_threads(t_data *data)
+{
+    while(!get_bool(data, &data->acc_mtx, &data->threads_ready));
+}
+
 
 void	*mr_lonely(void *ph_ptr)
 {
@@ -59,7 +76,8 @@ void	*pre_dinner_check(void *ph_ptr)
 	__uint64_t	time_passed;
 	
 	philo = (t_philo *)ph_ptr;
-	handle_mutex(philo->data, &philo->acc_mtx_ph, LOCK);
+	wait_threads(philo->data);
+	//handle_mutex(philo->data, &philo->acc_mtx_ph, LOCK);
 	if (philo->meal_count == philo->data->max_meals)
 		set_bool_var(philo->data, &philo->acc_mtx_ph, &philo->ph_full, true);
 	time_passed = get_time(philo->data, MILLISECONDS) - philo->data->start_meal_time;
@@ -68,7 +86,7 @@ void	*pre_dinner_check(void *ph_ptr)
 		set_bool_var(philo->data, &philo->acc_mtx_ph, &philo->ph_dead, true);
 		print_ph_status(philo->data, DIED);
 	}
-	handle_mutex(philo->data, &philo->acc_mtx_ph, UNLOCK);
+//	handle_mutex(philo->data, &philo->acc_mtx_ph, UNLOCK);
 	return (NULL);
 }
 void	*dinner_routine(void *ph_ptr)
@@ -79,16 +97,16 @@ void	*dinner_routine(void *ph_ptr)
 	philo = (t_philo *)ph_ptr;
 	time_left = philo->data->time_to_die + get_time(philo->data, MILLISECONDS);
 	set_time_var(philo->data, &philo->acc_mtx_ph, &philo->time_left, time_left);
-	pthread_create(&philo->ph_thread, NULL, &pre_dinner_check, &philo);
-//	handle_thread(philo->data, philo->ph_thread, &pre_dinner_check, philo, CREATE);
+//	pthread_create(&philo->ph_thread, NULL, &pre_dinner_check, &philo);
+	handle_thread(philo->data, &philo->ph_thread, &pre_dinner_check, philo, CREATE);
 	if(!philo->ph_dead)
 	{
 		ph_eating(philo);
 		ph_sleeping(philo);
 		ph_thinking(philo);
 	}
-	pthread_join(philo->ph_thread, NULL);
-//	handle_thread(philo->data, philo->ph_thread, NULL, NULL, JOIN);
+//	pthread_join(philo->ph_thread, NULL);
+	handle_thread(philo->data, &philo->ph_thread, NULL, NULL, JOIN);
 	return (NULL);
 }
 void	start_dinner(t_data *data)
@@ -100,23 +118,23 @@ void	start_dinner(t_data *data)
 		return ;
 	else if (data->nb_ph == 1)
 	{	
-		pthread_create(&data->ph[0].ph_thread, NULL, &mr_lonely, &data->ph[0]);
-		//handle_thread(data, data->ph[0].ph_thread, &mr_lonely, &data->ph[0], CREATE);
-		pthread_detach(data->ph[0].ph_thread);
-		//handle_thread(data, data->ph[0].ph_thread, NULL, NULL, DETACH);
+		//pthread_create(&data->ph[0].ph_thread, NULL, &mr_lonely, &data->ph[0]);
+		handle_thread(data, &data->ph[0].ph_thread, &mr_lonely, &data->ph[0], CREATE);
+		//pthread_detach(data->ph[0].ph_thread);
+		handle_thread(data, &data->ph[0].ph_thread, NULL, NULL, DETACH);
 	}
 	else
 	{
 		i = -1;	
 		while(++i < data->nb_ph)
-			pthread_create(&data->ph[i].ph_thread, NULL, &dinner_routine, &data->ph[i]);
-		//	handle_thread(data, data->ph[i].ph_thread, &dinner_routine, &data->ph[i], CREATE);
+		//	pthread_create(&data->ph[i].ph_thread, NULL, &dinner_routine, &data->ph[i]);
+			handle_thread(data, &data->ph[i].ph_thread, &dinner_routine, &data->ph[i], CREATE);
 		my_usleep(data, 100);
 	}
-	pthread_create(&data->mon_thread, NULL, &monitor, &data);
-//	handle_thread(data, data->mon_thread, &monitor, &data, CREATE);
+//	pthread_create(&data->mon_thread, NULL, &monitor, &data);
+	handle_thread(data, &data->mon_thread, &monitor, &data, CREATE);
 	i = -1;
 	while(++i < (data)->nb_ph)
-		pthread_join(data->ph[i].ph_thread, NULL);
-	//	handle_thread(data, data->ph[i].ph_thread, NULL, NULL, JOIN);
+	//	pthread_join(data->ph[i].ph_thread, NULL);
+		handle_thread(data, &data->ph[i].ph_thread, NULL, NULL, JOIN);
 }

@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:44:36 by root              #+#    #+#             */
-/*   Updated: 2025/02/21 13:35:45 by root             ###   ########.fr       */
+/*   Updated: 2025/02/21 19:58:56 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	handle_forks(t_philo *philo, t_fork_action action)
 		handle_mutex(philo->data, &philo->r_fork_mtx, LOCK);
 		print_ph_status(philo->data, TOOK_FORK);
 	}
-	else
+	else if (action == DROP)
 	{
 		handle_mutex(philo->data, &philo->l_fork_mtx, UNLOCK);
 		handle_mutex(philo->data, &philo->r_fork_mtx, UNLOCK);

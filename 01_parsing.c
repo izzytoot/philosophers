@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:44:32 by root              #+#    #+#             */
-/*   Updated: 2025/02/21 17:49:27 by root             ###   ########.fr       */
+/*   Updated: 2025/02/21 19:28:54 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	input_parsing_and_sort(t_data *data, char **av)
 	int	i;
 
 	i = 0;
-	data = malloc(sizeof(t_data));
 	if (!data)
 		error_and_exit(data, RED ERR_MEM RES, 2);
 	while(av[++i])

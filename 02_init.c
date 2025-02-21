@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:02:13 by root              #+#    #+#             */
-/*   Updated: 2025/02/21 18:32:34 by root             ###   ########.fr       */
+/*   Updated: 2025/02/21 19:34:41 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,19 @@ void	assign_forks(t_data *data)
 void	init_philos(t_data *data)
 {
 	int	i;
+	t_philo *philo;
 	
 	i = -1;
 	while(++i < data->nb_ph)
 	{
-		data->ph[i].data = data;
-		data->ph[i].ph_id = i + 1;
-		data->ph[i].meal_count = 0;
-		data->ph[i].ph_eating = false;
-		data->ph[i].ph_full = false;
-		data->ph[i].ph_dead = false;
-		data->ph[i].time_left = data->time_to_die;
+		philo = data->ph + i;
+		philo->ph_id = i + 1;
+		philo->meal_count = 0;
+		philo->ph_eating = false;
+		philo->ph_full = false;
+		philo->ph_dead = false;
+		philo->time_left = data->time_to_die;
+		philo->data = data;
 		handle_mutex(data, &data->ph[i].acc_mtx_ph, INIT);
 	}
 }
