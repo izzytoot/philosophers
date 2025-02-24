@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:44:36 by root              #+#    #+#             */
-/*   Updated: 2025/02/24 18:49:27 by root             ###   ########.fr       */
+/*   Updated: 2025/02/24 19:27:40 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	handle_forks(t_philo *philo, t_fork_action action)
 	{
 		handle_mutex(philo->data, &philo->l_fork_mtx, UNLOCK);
 		handle_mutex(philo->data, &philo->r_fork_mtx, UNLOCK);
-		print_ph_status(philo, THINKING);
+		print_ph_status(philo, SLEEPING);
 		my_usleep(philo->data, philo->data->time_to_sleep);
 	}
 }
@@ -40,6 +40,8 @@ int	ph_eating(t_philo *philo)
 	philo->time_left = time_left;
 	//set_time_var(philo->data, &philo->acc_mtx_ph, &philo->time_left, time_left); - isto causa entrave e nao deixa sequencia continuar
 	print_ph_status(philo, EATING);
+//	handle_mutex(philo->data, &philo->acc_mtx_ph, UNLOCK);
+	my_usleep(philo->data, philo->data->time_to_eat); //GETS STUCK
 	philo->meal_count++;
 	philo->ph_eating = false;
 	if (philo->meal_count == philo->data->max_meals)
@@ -47,8 +49,6 @@ int	ph_eating(t_philo *philo)
 		philo->ph_full = true;
 		philo->data->nb_ph_full++;	
 	}
-//	handle_mutex(philo->data, &philo->acc_mtx_ph, UNLOCK);
-	my_usleep(philo->data, philo->data->time_to_eat);
 	handle_forks(philo, DROP);
 	return (0);
 }

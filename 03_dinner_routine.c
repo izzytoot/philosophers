@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:27:17 by root              #+#    #+#             */
-/*   Updated: 2025/02/24 18:31:15 by root             ###   ########.fr       */
+/*   Updated: 2025/02/24 19:27:16 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	*monitor(void *ph_ptr)
 	t_philo	*philo;
 		
 	philo = (t_philo *)ph_ptr;
-//	printf(YLL"entered monitor\n"RES);
 	while(!philo->data->ph_dead)
 	{
 	//	handle_mutex(philo->data, &philo->acc_mtx_ph, LOCK);
@@ -121,7 +120,6 @@ void	*dinner_routine(void *ph_ptr)
 void	start_dinner(t_data *data)
 {
 	int	i;
-	
 	data->start_meal_time = get_time(data, MILLISECONDS);
 	if (data->max_meals > 0)
 		handle_thread(data, &data->mon_thread, &monitor, &data->ph[0], CREATE);
@@ -139,7 +137,11 @@ void	start_dinner(t_data *data)
 //	handle_mutex(data, &data->acc_mtx, LOCK);
 	i = -1;
 	while(++i < (data)->nb_ph)
+	{
+		printf("entered thread join loop for philo %d\n", data->ph[i].ph_id);
 		handle_thread(data, &data->ph[i].ph_thread, NULL, NULL, JOIN);
+	}
+	printf("left thread join loop\n");
 	if (data->max_meals > 0)
         handle_thread(data, &data->mon_thread, NULL, NULL, JOIN);
 }

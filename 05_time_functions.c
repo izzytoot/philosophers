@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:47:50 by root              #+#    #+#             */
-/*   Updated: 2025/02/24 18:31:36 by root             ###   ########.fr       */
+/*   Updated: 2025/02/24 19:23:44 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	my_usleep(t_data *data, __uint64_t sleep_time)
 	current = start;
 	
 	while ((current - start) < sleep_time)
+	{
  		usleep(500);
         current = get_time(data, MICROSECONDS);
+	}
 }
