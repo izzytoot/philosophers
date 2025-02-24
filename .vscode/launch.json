@@ -8,7 +8,7 @@
 			"name": "philosophers",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "/home/42/my_philo/myphilo",
+			"program": "/home/icunha-t/Commoncore/my_philo/myphilo",
 			"args": ["5", "500", "200", "200", "5"]
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",

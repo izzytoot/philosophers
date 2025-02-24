@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   myphilo.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:24:12 by root              #+#    #+#             */
-/*   Updated: 2025/02/21 20:03:06 by root             ###   ########.fr       */
+/*   Updated: 2025/02/24 11:54:37 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ void	my_usleep(t_data *data, __uint64_t sleep_time);
 void	handle_mutex(t_data *data, t_mtx *mtx, t_code code);
 void	handle_thread(t_data *data, pthread_t *thread, void *(*function)(void *), void *t_data, t_code code);
 void	set_bool_var(t_data *data, t_mtx *mtx, bool *boolean, bool value);
-void	print_ph_status(t_data *data, t_ph_status status);
+void	print_ph_status(t_philo *philo, t_ph_status status);
 
 // 07_closing_dinner.c
 void	error_and_exit(t_data *data, char *message, int fd);
