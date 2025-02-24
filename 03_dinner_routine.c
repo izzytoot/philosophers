@@ -6,26 +6,28 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:27:17 by root              #+#    #+#             */
-/*   Updated: 2025/02/24 17:59:12 by root             ###   ########.fr       */
+/*   Updated: 2025/02/24 18:31:15 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "myphilo.h"
-
+/*
 bool    get_bool(t_data *data, t_mtx *mtx, bool *value)
 {
     bool ret;
 
-    handle_mutex(data, mtx, LOCK);
-    ret = *value;
-    handle_mutex(data, mtx, UNLOCK);
+ //   handle_mutex(data, mtx, LOCK);
+	ret = *value;
+//    handle_mutex(data, mtx, UNLOCK);
     return (ret);
 
 }
-
+*/
 void    wait_threads(t_data *data)
 {
-    while(!get_bool(data, &data->acc_mtx, &data->threads_ready));
+    while(data->threads_ready == false);
+//   while(!get_bool(data, &data->acc_mtx, &data->threads_ready));
+
 }
 
 
@@ -36,7 +38,8 @@ void	*mr_lonely(void *ph_ptr)
 
 	philo = (t_philo *)ph_ptr;
 	time_left = philo->data->time_to_die + get_time(philo->data, MILLISECONDS);
-	set_time_var(philo->data, &philo->acc_mtx_ph, &philo->time_left, time_left);
+//	set_time_var(philo->data, &philo->acc_mtx_ph, &philo->time_left, time_left);
+	philo->time_left = time_left;
 	print_ph_status(philo, TOOK_FORK);
 	while(!philo->ph_dead)
 		my_usleep(philo->data, 200);
@@ -51,10 +54,10 @@ void	*monitor(void *ph_ptr)
 //	printf(YLL"entered monitor\n"RES);
 	while(!philo->data->ph_dead)
 	{
-		handle_mutex(philo->data, &philo->acc_mtx_ph, LOCK);
+	//	handle_mutex(philo->data, &philo->acc_mtx_ph, LOCK);
 		if (philo->data->nb_ph_full >= philo->data->nb_ph)
 			philo->data->ph_dead = true;
-		handle_mutex(philo->data, &philo->acc_mtx_ph, UNLOCK);
+	//	handle_mutex(philo->data, &philo->acc_mtx_ph, UNLOCK);
 	}
 	return (NULL);
 }
@@ -93,7 +96,8 @@ void	*dinner_routine(void *ph_ptr)
 	
 	philo = (t_philo *)ph_ptr;
 	time_left = philo->data->time_to_die + get_time(philo->data, MILLISECONDS);
-	set_time_var(philo->data, &philo->acc_mtx_ph, &philo->time_left, time_left);
+//set_time_var(philo->data, &philo->acc_mtx_ph, &philo->time_left, time_left);
+	philo->time_left = time_left;
 //	handle_thread(philo->data, &philo->ph_thread, &pre_dinner_check, philo, CREATE);
 	while(philo->ph_dead == false)
 	{
@@ -132,7 +136,7 @@ void	start_dinner(t_data *data)
 		while(++i < data->nb_ph)
 			handle_thread(data, &data->ph[i].ph_thread, &dinner_routine, &data->ph[i], CREATE);
 	}
-	handle_mutex(data, &data->acc_mtx, LOCK);
+//	handle_mutex(data, &data->acc_mtx, LOCK);
 	i = -1;
 	while(++i < (data)->nb_ph)
 		handle_thread(data, &data->ph[i].ph_thread, NULL, NULL, JOIN);

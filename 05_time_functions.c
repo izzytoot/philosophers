@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:47:50 by root              #+#    #+#             */
-/*   Updated: 2025/02/24 18:13:54 by root             ###   ########.fr       */
+/*   Updated: 2025/02/24 18:31:36 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ __uint64_t	get_time(t_data *data, t_time time_unit)
 	error_and_exit(data, RED ERR_TIME2 RES, 2);
 	return (0);
 }
-
+/*
 void	set_time_var(t_data *data, t_mtx *mtx, __uint64_t *result, __uint64_t time)
 {
-	handle_mutex(data, mtx, LOCK);
+//	handle_mutex(data, mtx, LOCK);
 	*result = time;
-	handle_mutex(data, mtx, UNLOCK);
+//	handle_mutex(data, mtx, UNLOCK);
 }
-
+*/
 void	my_usleep(t_data *data, __uint64_t sleep_time)
 {
 	__uint64_t	start;

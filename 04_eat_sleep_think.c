@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:44:36 by root              #+#    #+#             */
-/*   Updated: 2025/02/24 17:51:10 by root             ###   ########.fr       */
+/*   Updated: 2025/02/24 18:49:27 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ph_eating(t_philo *philo)
 	__uint64_t	time_left;
 	
 	handle_forks(philo, TAKE);
-	handle_mutex(philo->data, &philo->acc_mtx_ph, LOCK);
+//	handle_mutex(philo->data, &philo->acc_mtx_ph, LOCK);
 	philo->ph_eating = true;
 	time_left = philo->data->time_to_die + get_time(philo->data, MILLISECONDS);
 	philo->time_left = time_left;
@@ -47,7 +47,7 @@ int	ph_eating(t_philo *philo)
 		philo->ph_full = true;
 		philo->data->nb_ph_full++;	
 	}
-	handle_mutex(philo->data, &philo->acc_mtx_ph, UNLOCK);
+//	handle_mutex(philo->data, &philo->acc_mtx_ph, UNLOCK);
 	my_usleep(philo->data, philo->data->time_to_eat);
 	handle_forks(philo, DROP);
 	return (0);

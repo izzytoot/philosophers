@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   02_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:02:13 by root              #+#    #+#             */
-/*   Updated: 2025/02/24 14:20:18 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:50:28 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@ void	assign_forks(t_data *data)
 	i = -1;
 	while(++i < data->nb_ph)
 		handle_mutex(data, &data->forks[i], INIT);
+	i = -1;
+		while(++i < data->nb_ph)
+		{
+			handle_mutex(data, &data->ph[i].l_fork_mtx, INIT);
+			handle_mutex(data, &data->ph[i].r_fork_mtx, INIT);
+		}
 	i = 0;
 		data->ph[0].r_fork_mtx = data->forks[i];
 		data->ph[0].l_fork_mtx = data->forks[i + 1];

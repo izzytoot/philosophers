@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:46:34 by root              #+#    #+#             */
-/*   Updated: 2025/02/24 17:48:30 by root             ###   ########.fr       */
+/*   Updated: 2025/02/24 18:52:25 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,24 +58,22 @@ void	handle_thread(t_data *data, pthread_t *thread, void *(*function)(void *), v
 	else
 		error_and_exit(data, RED ERR_TH_CODE RES, 2);
 }
-
+/*
 void	set_bool_var(t_data *data, t_mtx *mtx, bool *boolean, bool value)
 {
-	handle_mutex(data, mtx, LOCK);
+//	handle_mutex(data, mtx, LOCK);
 	*boolean = value;
-	handle_mutex(data, mtx, UNLOCK);
+//	handle_mutex(data, mtx, UNLOCK);
 }
-
+*/
 //WITH EMOJIS
 void	print_ph_status(t_philo *philo, t_ph_status status)
 {
 	__uint64_t	current_time;
 	__uint64_t	time_passed;
 	
-	handle_mutex(philo->data, &philo->data->write_mtx, LOCK);
-	//printf("start_meal_time = %lu\n", philo->data->start_meal_time);
+//	handle_mutex(philo->data, &philo->data->write_mtx, LOCK);
 	current_time = get_time(philo->data, MILLISECONDS);
-	//printf("current time = %lu\n", current_time);
 	time_passed =  current_time - philo->data->start_meal_time;
 	if (status == TOOK_FORK)
 		printf("%-6lu %d has taken a fork %s\n", time_passed, philo->ph_id, "\U0001f374");
@@ -87,7 +85,7 @@ void	print_ph_status(t_philo *philo, t_ph_status status)
 		printf("%-6lu %d is thinking %s\n", time_passed, philo->ph_id, "\U0001f914");
 	else if (status == DIED)
 		printf("%-6lu"RED" %d died"RES"%s\n", time_passed, philo->ph_id, "\U0002f620");
-	handle_mutex(philo->data, &philo->data->write_mtx, UNLOCK);
+//	handle_mutex(philo->data, &philo->data->write_mtx, UNLOCK);
 }
 /*
 void	print_ph_status(t_philo *philo, t_ph_status status)
