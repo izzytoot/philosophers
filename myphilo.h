@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   myphilo.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:24:12 by root              #+#    #+#             */
-/*   Updated: 2025/02/24 15:27:08 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:10:18 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef struct s_philo t_philo;
 
 typedef enum s_time
 {
-	MICROSSECONDS,
+	MICROSECONDS,
 	MILLISECONDS,
 	SECONDS,
 }	t_time;
@@ -150,15 +150,15 @@ void	assign_forks(t_data *data);
 //03_routine.c
 void	start_dinner(t_data *data);
 void	*dinner_routine(void *ph_ptr);
-void	*pre_dinner_check(void *ph_ptr);
+//void	*pre_dinner_check(void *ph_ptr);
 void	*monitor(void *data_ptr);
 void	*mr_lonely(void *ph_ptr);
 
 // 04_eat_sleep_think.c
 void	handle_forks(t_philo *philo, t_fork_action action);
-void	ph_eating(t_philo *philo);
-void	ph_sleeping(t_philo *philo);
-void	ph_thinking(t_philo *philo);
+int	ph_eating(t_philo *philo);
+//void	ph_sleeping(t_philo *philo);
+//void	ph_thinking(t_philo *philo);
 
 // 05_time_functions.c
 __uint64_t	get_time(t_data *data, t_time	time_unit);

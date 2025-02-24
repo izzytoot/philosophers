@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:47:50 by root              #+#    #+#             */
-/*   Updated: 2025/02/21 13:28:36 by root             ###   ########.fr       */
+/*   Updated: 2025/02/24 18:13:54 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,13 @@ __uint64_t	get_time(t_data *data, t_time time_unit)
 
 	if(gettimeofday(&current_time, NULL))
 		error_and_exit(data, RED ERR_TIME RES, 2);
-	if (time_unit == MICROSSECONDS)
-		return ((current_time.tv_sec * 1000000) + (current_time.tv_usec / 1000));
+	if (time_unit == MICROSECONDS)
+		return ((current_time.tv_sec * 1000000ULL) + (current_time.tv_usec));
 	else if (time_unit == MILLISECONDS)
-		return ((current_time.tv_sec * 1000) + current_time.tv_usec);
+		return ((current_time.tv_sec * 1000000ULL) + (current_time.tv_usec + 500 / 1000));
 	else if (time_unit == SECONDS)
-		return (current_time.tv_sec + (current_time.tv_usec / 1000000));
-	else
-		error_and_exit(data, RED ERR_TIME2 RES, 2);
+		return (current_time.tv_sec);
+	error_and_exit(data, RED ERR_TIME2 RES, 2);
 	return (0);
 }
 
@@ -39,8 +38,12 @@ void	set_time_var(t_data *data, t_mtx *mtx, __uint64_t *result, __uint64_t time)
 void	my_usleep(t_data *data, __uint64_t sleep_time)
 {
 	__uint64_t	start;
-
-	start = get_time(data, MICROSSECONDS);
-	while ((get_time(data, MICROSSECONDS) - start) < sleep_time)
-		my_usleep(data, (sleep_time / 2));
+	__uint64_t	current;
+	
+	start = get_time(data, MICROSECONDS);
+	current = start;
+	
+	while ((current - start) < sleep_time)
+ 		usleep(500);
+        current = get_time(data, MICROSECONDS);
 }

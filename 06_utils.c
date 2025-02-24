@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   06_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:46:34 by root              #+#    #+#             */
-/*   Updated: 2025/02/24 15:04:50 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/24 17:48:30 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	print_ph_status(t_philo *philo, t_ph_status status)
 	else if (status == THINKING)
 		printf("%-6lu %d is thinking %s\n", time_passed, philo->ph_id, "\U0001f914");
 	else if (status == DIED)
-		printf("%-6lu"RED" %d died  %s\n", time_passed, philo->ph_id, "\U0002f620");
+		printf("%-6lu"RED" %d died"RES"%s\n", time_passed, philo->ph_id, "\U0002f620");
 	handle_mutex(philo->data, &philo->data->write_mtx, UNLOCK);
 }
 /*

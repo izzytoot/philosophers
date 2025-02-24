@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   03_dinner_routine.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:27:17 by root              #+#    #+#             */
-/*   Updated: 2025/02/24 16:00:01 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/24 17:59:12 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ void	*dinner_routine(void *ph_ptr)
 	philo = (t_philo *)ph_ptr;
 	time_left = philo->data->time_to_die + get_time(philo->data, MILLISECONDS);
 	set_time_var(philo->data, &philo->acc_mtx_ph, &philo->time_left, time_left);
-	printf(YLL"Philo %d time left: %-lu\n"RES, philo->ph_id, philo->time_left);
 //	handle_thread(philo->data, &philo->ph_thread, &pre_dinner_check, philo, CREATE);
 	while(philo->ph_dead == false)
 	{
@@ -112,7 +111,6 @@ void	*dinner_routine(void *ph_ptr)
 		my_usleep(philo->data, 100);
 	}
 	//handle_thread(philo->data, &philo->ph_thread, NULL, NULL, JOIN); - CAUSES DEADLOCK
-	printf("Philosopher %d exiting routine\n", philo->ph_id);
 	return (NULL);
 }
 
@@ -121,11 +119,8 @@ void	start_dinner(t_data *data)
 	int	i;
 	
 	data->start_meal_time = get_time(data, MILLISECONDS);
-	handle_mutex(data, &data->acc_mtx, LOCK);
 	if (data->max_meals > 0)
 		handle_thread(data, &data->mon_thread, &monitor, &data->ph[0], CREATE);
-	else
-		return ;
 	if (data->nb_ph == 1)
 	{	
 		handle_thread(data, &data->data_thread, &mr_lonely, &data->ph[0], CREATE);
@@ -136,14 +131,11 @@ void	start_dinner(t_data *data)
 		i = -1;	
 		while(++i < data->nb_ph)
 			handle_thread(data, &data->ph[i].ph_thread, &dinner_routine, &data->ph[i], CREATE);
-		my_usleep(data, 1000000);
 	}
-	printf("left creation loop\n");
+	handle_mutex(data, &data->acc_mtx, LOCK);
 	i = -1;
 	while(++i < (data)->nb_ph)
-	{
 		handle_thread(data, &data->ph[i].ph_thread, NULL, NULL, JOIN);
-		printf("thread for philo %d was executed\n", data->ph[i].ph_id);
-	}
-	handle_mutex(data, &data->acc_mtx, UNLOCK);
+	if (data->max_meals > 0)
+        handle_thread(data, &data->mon_thread, NULL, NULL, JOIN);
 }
