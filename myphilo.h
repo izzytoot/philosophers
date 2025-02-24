@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:24:12 by root              #+#    #+#             */
-/*   Updated: 2025/02/24 11:54:37 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:27:08 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <pthread.h>
 # include <stdbool.h>
 # include <limits.h>
+#include <errno.h> // APAGAR
+#include <signal.h> //APAGAR
 /* ************************************************************************** */
 /*                                    MACROS                                  */
 /* ************************************************************************** */
@@ -114,12 +116,12 @@ typedef struct s_data
 	t_philo			*ph;
 	long			nb_ph;
 	long			max_meals;
+	long			nb_ph_full;
 	__uint64_t		time_to_die; //u_int64_t - unsigned interger of 64 bits
 	__uint64_t		time_to_eat;
 	__uint64_t		time_to_sleep;
 	__uint64_t		start_meal_time;
 	bool			ph_dead;
-	bool			all_ph_full;
 	bool			threads_ready;
 	t_mtx			*forks;
 	t_mtx			write_mtx;

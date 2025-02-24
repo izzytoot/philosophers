@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   02_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:02:13 by root              #+#    #+#             */
-/*   Updated: 2025/02/21 19:34:41 by root             ###   ########.fr       */
+/*   Updated: 2025/02/24 14:20:18 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	program_init(t_data *data)
 {
 	data->start_meal_time = 0;
 	data->ph_dead = false;
-	data->all_ph_full = false;
+	data->nb_ph_full = 0;
 	alloc_memory_data(data);
 	handle_mutex(data, &data->write_mtx, INIT); 
 	handle_mutex(data, &data->acc_mtx, INIT);

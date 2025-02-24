@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:46:34 by root              #+#    #+#             */
-/*   Updated: 2025/02/24 11:58:05 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:04:50 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,20 +69,24 @@ void	set_bool_var(t_data *data, t_mtx *mtx, bool *boolean, bool value)
 //WITH EMOJIS
 void	print_ph_status(t_philo *philo, t_ph_status status)
 {
+	__uint64_t	current_time;
 	__uint64_t	time_passed;
 	
-	time_passed = get_time(philo->data, MILLISECONDS) - philo->data->start_meal_time;
 	handle_mutex(philo->data, &philo->data->write_mtx, LOCK);
+	//printf("start_meal_time = %lu\n", philo->data->start_meal_time);
+	current_time = get_time(philo->data, MILLISECONDS);
+	//printf("current time = %lu\n", current_time);
+	time_passed =  current_time - philo->data->start_meal_time;
 	if (status == TOOK_FORK)
-		printf("%-6ld %d has taken a fork"RES" %s\n", time_passed, philo->ph_id, "\U0001f374");
+		printf("%-6lu %d has taken a fork %s\n", time_passed, philo->ph_id, "\U0001f374");
 	else if (status == EATING)
-		printf("%-6ld"GR" %d is eating"RES" %s\n", time_passed,philo->ph_id, "\U0001f60B");
+		printf("%-6lu"GR" %d is eating"RES" %s\n", time_passed,philo->ph_id, "\U0001f60B");
 	else if (status == SLEEPING)
-		printf("%-6ld %d is sleeping"RES" %s\n", time_passed, philo->ph_id, "\U0001f634");
+		printf("%-6lu %d is sleeping %s\n", time_passed, philo->ph_id, "\U0001f634");
 	else if (status == THINKING)
-		printf("%-6ld %d is thinking"RES" %s\n", time_passed, philo->ph_id, "\U0001f914");
+		printf("%-6lu %d is thinking %s\n", time_passed, philo->ph_id, "\U0001f914");
 	else if (status == DIED)
-		printf("%-6ld"RED" %d died"RES" %s\n", time_passed, philo->ph_id, "\U0002f620");
+		printf("%-6lu"RED" %d died  %s\n", time_passed, philo->ph_id, "\U0002f620");
 	handle_mutex(philo->data, &philo->data->write_mtx, UNLOCK);
 }
 /*
