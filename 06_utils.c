@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:46:34 by root              #+#    #+#             */
-/*   Updated: 2025/02/25 11:28:41 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/25 19:24:49 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,15 @@ void	handle_thread(t_data *data, pthread_t *thread, void *(*function)(void *), v
 	else
 		error_and_exit(data, RED ERR_TH_CODE RES, 2);
 }
-/*
+
 void	set_bool_var(t_data *data, t_mtx *mtx, bool *boolean, bool value)
 {
-//	handle_mutex(data, mtx, LOCK);
+	handle_mutex(data, mtx, LOCK);
 	*boolean = value;
-//	handle_mutex(data, mtx, UNLOCK);
+	handle_mutex(data, mtx, UNLOCK);
 }
-*/
-//WITH EMOJIS
+
+//WITH EMOJIS AND COLORS
 void	print_ph_status(t_philo *philo, t_ph_status status)
 {
 	__uint64_t	current_time;
@@ -76,13 +76,13 @@ void	print_ph_status(t_philo *philo, t_ph_status status)
  	current_time = get_time(philo->data, MILLISECONDS);
 	time_passed =  current_time - philo->data->start_meal_time;
 	if (status == TOOK_FORK)
-		printf("%-6lu"GR" %d has taken a fork"RES" %s\n", time_passed, philo->ph_id, "\U0001f374");
+		printf("%-6lu"YLL" %d has taken a fork"RES" %s\n", time_passed, philo->ph_id, "\U0001f374");
 	else if (status == EATING)
 		printf("%-6lu"GR" %d is eating"RES" %s\n", time_passed,philo->ph_id, "\U0001f60B");
 	else if (status == SLEEPING)
-		printf("%-6lu"GR" %d is sleeping"RES" %s\n", time_passed, philo->ph_id, "\U0001f634");
+		printf("%-6lu"YLL" %d is sleeping"RES" %s\n", time_passed, philo->ph_id, "\U0001f634");
 	else if (status == THINKING)
-		printf("%-6lu"GR" %d is thinking"RES" %s\n", time_passed, philo->ph_id, "\U0001f914");
+		printf("%-6lu"YLL" %d is thinking"RES" %s\n", time_passed, philo->ph_id, "\U0001f914");
 	else if (status == DIED)
 		printf("%-6lu"RED" %d died"RES"%s\n", time_passed, philo->ph_id, "\U0002f620");
 	handle_mutex(philo->data, &philo->data->write_mtx, UNLOCK);
@@ -97,7 +97,7 @@ void	print_ph_status(t_philo *philo, t_ph_status status)
 	{
 		handle_mutex(philo->program, &philo->program->access_mutex, LOCK);
 		if (status == TOOK_FORK)
-			printf("%-6ld %d has taken a fork\n"RES, time_passed, philo->id);
+			printf("%-6ld %d has taken a fork\n", time_passed, philo->id);
 		else if (status == EATING)
 			printf("%-6ld"G" %d is eating\n"RES, time_passed, philo->id);
 		else if (status == SLEEPING)

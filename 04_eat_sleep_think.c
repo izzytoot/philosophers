@@ -6,11 +6,18 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:44:36 by root              #+#    #+#             */
-/*   Updated: 2025/02/25 11:46:51 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/25 19:50:27 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "myphilo.h"
+
+void    wait_threads(t_data *data)
+{
+    while(data->threads_ready == false);
+//   while(!get_bool(data, &data->acc_mtx, &data->threads_ready));
+
+}
 
 void	handle_forks(t_philo *philo, t_fork_action action)
 {
@@ -26,45 +33,29 @@ void	handle_forks(t_philo *philo, t_fork_action action)
 		handle_mutex(philo->data, &philo->l_fork_mtx, UNLOCK);
 		handle_mutex(philo->data, &philo->r_fork_mtx, UNLOCK);
 		print_ph_status(philo, SLEEPING);
-		my_usleep(philo->data, philo->data->time_to_sleep);
 	}
 }
 int	ph_eating(t_philo *philo)
 {
-	__uint64_t	time_left;
+	__uint64_t	current_time;
 	
+	wait_threads(philo->data);
 	handle_forks(philo, TAKE);
-	handle_mutex(philo->data, &philo->ph_mtx, LOCK);
-	philo->ph_eating = true;
-	time_left = philo->data->time_to_die + get_time(philo->data, MILLISECONDS);
-	philo->time_left = time_left;
-	//set_time_var(philo->data, &philo->acc_mtx_ph, &philo->time_left, time_left); - isto causa entrave e nao deixa sequencia continuar
+	set_bool_var(philo->data, &philo->ph_mtx, &philo->ph_eating, true);
+	current_time = get_time(philo->data, MILLISECONDS);
+	set_time_var(philo->data, &philo->ph_mtx, &philo->last_meal, current_time);
 	print_ph_status(philo, EATING);
+	handle_mutex(philo->data, &philo->ph_mtx, LOCK);
 	my_usleep(philo->data, philo->data->time_to_eat);
 	philo->meal_count++;
-	philo->ph_eating = false;
 	if (philo->meal_count >= philo->data->max_meals)
 	{
 		philo->ph_full = true;
 		philo->data->nb_ph_full++;
 	}
-	handle_mutex(philo->data, &philo->ph_mtx, UNLOCK);
+	philo->ph_eating = false;
 	handle_forks(philo, DROP);
+	my_usleep(philo->data, philo->data->time_to_sleep);
+	handle_mutex(philo->data, &philo->ph_mtx, UNLOCK);
 	return (0);
 }
-/*
-void	ph_sleeping(t_philo *philo)
-{
-	handle_mutex(philo->data, &philo->acc_mtx_ph, LOCK);
-	print_ph_status(philo, SLEEPING);
-	my_usleep(philo->data, philo->data->time_to_sleep);
-	handle_mutex(philo->data, &philo->acc_mtx_ph, UNLOCK);
-}
-
-void	ph_thinking(t_philo *philo)
-{
-	handle_mutex(philo->data, &philo->acc_mtx_ph, LOCK);
-	print_ph_status(philo, THINKING);
-	handle_mutex(philo->data, &philo->acc_mtx_ph, UNLOCK);
-}
-*/

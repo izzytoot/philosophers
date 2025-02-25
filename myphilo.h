@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:24:12 by root              #+#    #+#             */
-/*   Updated: 2025/02/25 11:33:18 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/25 19:51:45 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ typedef struct s_philo
 	bool		ph_eating;
 	bool		ph_full;
 	bool		ph_dead;
-	__uint64_t	time_left;
+	__uint64_t	last_meal;
 	t_mtx		ph_mtx; 
 	t_mtx		r_fork_mtx;
 	t_mtx		l_fork_mtx;
@@ -134,46 +134,45 @@ typedef struct s_data
 /* ************************************************************************** */
 
 //00_main.c
-int	main(int ac, char **av);
+int			main(int ac, char **av);
 
 //01_parsing.c
-void	input_parsing_and_sort(t_data *data, char **av);
-void	basic_checker(t_data *data, char *av);
-void	init_input_data(t_data *data, char **av);
-long	conv_and_check(t_data *data, char *av);
-
+void		input_parsing_and_sort(t_data *data, char **av);
+void		basic_checker(t_data *data, char *av);
+void		init_input_data(t_data *data, char **av);
+long		conv_and_check(t_data *data, char *av);
+	
 //02_init.c
-void	program_init(t_data *data);
-void	alloc_memory_data(t_data *data);
-void	init_philos(t_data *data);
-void	assign_forks(t_data *data);
+void		program_init(t_data *data);
+void		alloc_memory_data(t_data *data);
+void		init_philos(t_data *data);
+void		assign_forks(t_data *data);
 
 //03_routine.c
-void	start_dinner(t_data *data);
-void	*dinner_routine(void *ph_ptr);
-//void	*pre_dinner_check(void *ph_ptr);
-void	*monitor(void *data_ptr);
-void	*mr_lonely(void *ph_ptr);
+void		start_dinner(t_data *data);
+void		*monitor(void *data_ptr);
+void		*dinner_routine(void *ph_ptr);
+int			pre_dinner_check(t_philo *philo);
+void		*mr_lonely(void *ph_ptr);
 
 // 04_eat_sleep_think.c
-void	handle_forks(t_philo *philo, t_fork_action action);
-int	ph_eating(t_philo *philo);
-//void	ph_sleeping(t_philo *philo);
-//void	ph_thinking(t_philo *philo);
+void  	 	wait_threads(t_data *data);
+void		handle_forks(t_philo *philo, t_fork_action action);
+int			ph_eating(t_philo *philo);
 
 // 05_time_functions.c
 __uint64_t	get_time(t_data *data, t_time	time_unit);
-void	set_time_var(t_data *data, t_mtx *mtx, __uint64_t *result, __uint64_t time);
-void	my_usleep(t_data *data, __uint64_t sleep_time);
+void		set_time_var(t_data *data, t_mtx *mtx, __uint64_t *result, __uint64_t time);
+void		my_usleep(t_data *data, __uint64_t sleep_time);
 
 // 06_utils
-void	handle_mutex(t_data *data, t_mtx *mtx, t_code code);
-void	handle_thread(t_data *data, pthread_t *thread, void *(*function)(void *), void *t_data, t_code code);
-void	set_bool_var(t_data *data, t_mtx *mtx, bool *boolean, bool value);
-void	print_ph_status(t_philo *philo, t_ph_status status);
+void		handle_mutex(t_data *data, t_mtx *mtx, t_code code);
+void		handle_thread(t_data *data, pthread_t *thread, void *(*function)(void *), void *t_data, t_code code);
+void		set_bool_var(t_data *data, t_mtx *mtx, bool *boolean, bool value);
+void		print_ph_status(t_philo *philo, t_ph_status status);
 
 // 07_closing_dinner.c
-void	error_and_exit(t_data *data, char *message, int fd);
-void	free_and_clean(t_data *data);
+void		error_and_exit(t_data *data, char *message, int fd);
+void		free_and_clean(t_data *data);
 
 #endif
