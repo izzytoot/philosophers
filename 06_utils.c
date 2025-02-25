@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   06_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:46:34 by root              #+#    #+#             */
-/*   Updated: 2025/02/24 19:09:58 by root             ###   ########.fr       */
+/*   Updated: 2025/02/25 11:28:41 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ void	print_ph_status(t_philo *philo, t_ph_status status)
 	__uint64_t	current_time;
 	__uint64_t	time_passed;
 	
-//	handle_mutex(philo->data, &philo->data->write_mtx, LOCK);
-	current_time = get_time(philo->data, MILLISECONDS);
+	handle_mutex(philo->data, &philo->data->write_mtx, LOCK);
+ 	current_time = get_time(philo->data, MILLISECONDS);
 	time_passed =  current_time - philo->data->start_meal_time;
 	if (status == TOOK_FORK)
 		printf("%-6lu"GR" %d has taken a fork"RES" %s\n", time_passed, philo->ph_id, "\U0001f374");
@@ -85,7 +85,7 @@ void	print_ph_status(t_philo *philo, t_ph_status status)
 		printf("%-6lu"GR" %d is thinking"RES" %s\n", time_passed, philo->ph_id, "\U0001f914");
 	else if (status == DIED)
 		printf("%-6lu"RED" %d died"RES"%s\n", time_passed, philo->ph_id, "\U0002f620");
-//	handle_mutex(philo->data, &philo->data->write_mtx, UNLOCK);
+	handle_mutex(philo->data, &philo->data->write_mtx, UNLOCK);
 }
 /*
 void	print_ph_status(t_philo *philo, t_ph_status status)

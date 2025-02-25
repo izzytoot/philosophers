@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   02_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:02:13 by root              #+#    #+#             */
-/*   Updated: 2025/02/24 18:50:28 by root             ###   ########.fr       */
+/*   Updated: 2025/02/25 11:33:23 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	init_philos(t_data *data)
 		philo->ph_dead = false;
 		philo->time_left = data->time_to_die;
 		philo->data = data;
-		handle_mutex(data, &data->ph[i].acc_mtx_ph, INIT);
+		handle_mutex(data, &data->ph[i].ph_mtx, INIT);
 	}
 }
 
@@ -75,9 +75,10 @@ void	program_init(t_data *data)
 	data->start_meal_time = 0;
 	data->ph_dead = false;
 	data->nb_ph_full = 0;
+	data->all_ph_full = false;
 	alloc_memory_data(data);
 	handle_mutex(data, &data->write_mtx, INIT); 
-	handle_mutex(data, &data->acc_mtx, INIT);
+	handle_mutex(data, &data->data_mtx, INIT);
 	init_philos(data);
 	assign_forks(data);
 }

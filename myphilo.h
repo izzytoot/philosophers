@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   myphilo.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:24:12 by root              #+#    #+#             */
-/*   Updated: 2025/02/24 18:10:18 by root             ###   ########.fr       */
+/*   Updated: 2025/02/25 11:33:18 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ typedef struct s_philo
 	bool		ph_full;
 	bool		ph_dead;
 	__uint64_t	time_left;
-	t_mtx		acc_mtx_ph; 
+	t_mtx		ph_mtx; 
 	t_mtx		r_fork_mtx;
 	t_mtx		l_fork_mtx;
 }	t_philo;
@@ -123,9 +123,10 @@ typedef struct s_data
 	__uint64_t		start_meal_time;
 	bool			ph_dead;
 	bool			threads_ready;
+	bool			all_ph_full;
 	t_mtx			*forks;
 	t_mtx			write_mtx;
-	t_mtx			acc_mtx;
+	t_mtx			data_mtx;
 }	t_data;
 
 /* ************************************************************************** */

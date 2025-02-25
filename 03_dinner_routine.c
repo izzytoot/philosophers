@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   03_dinner_routine.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:27:17 by root              #+#    #+#             */
-/*   Updated: 2025/02/24 19:27:16 by root             ###   ########.fr       */
+/*   Updated: 2025/02/25 11:43:31 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ void	*monitor(void *ph_ptr)
 	t_philo	*philo;
 		
 	philo = (t_philo *)ph_ptr;
-	while(!philo->data->ph_dead)
+	while(!philo->data->ph_dead || !philo->data->all_ph_full)
 	{
-	//	handle_mutex(philo->data, &philo->acc_mtx_ph, LOCK);
+		handle_mutex(philo->data, &philo->ph_mtx, LOCK);
 		if (philo->data->nb_ph_full >= philo->data->nb_ph)
-			philo->data->ph_dead = true;
-	//	handle_mutex(philo->data, &philo->acc_mtx_ph, UNLOCK);
+			philo->data->all_ph_full = true;
+		handle_mutex(philo->data, &philo->ph_mtx, UNLOCK);
 	}
 	return (NULL);
 }
@@ -98,20 +98,24 @@ void	*dinner_routine(void *ph_ptr)
 //set_time_var(philo->data, &philo->acc_mtx_ph, &philo->time_left, time_left);
 	philo->time_left = time_left;
 //	handle_thread(philo->data, &philo->ph_thread, &pre_dinner_check, philo, CREATE);
-	while(philo->ph_dead == false)
+	while(!philo->data->ph_dead)
 	{
    		if (get_time(philo->data, MILLISECONDS) - philo->data->start_meal_time >= philo->time_left)
 		{
 			if (philo->ph_eating == false)
 			{
+				handle_mutex(philo->data, &philo->ph_mtx, LOCK);
 				philo->ph_dead = true;
       		  	print_ph_status(philo, DIED);
        			break;
+				handle_mutex(philo->data, &philo->ph_mtx, UNLOCK);
 			}
 		}
 		ph_eating(philo);
+	//	handle_mutex(philo->data, &philo->ph_mtx, LOCK);
 		print_ph_status(philo, THINKING);
 		my_usleep(philo->data, 100);
+	//	handle_mutex(philo->data, &philo->ph_mtx, UNLOCK);
 	}
 	//handle_thread(philo->data, &philo->ph_thread, NULL, NULL, JOIN); - CAUSES DEADLOCK
 	return (NULL);
@@ -134,7 +138,6 @@ void	start_dinner(t_data *data)
 		while(++i < data->nb_ph)
 			handle_thread(data, &data->ph[i].ph_thread, &dinner_routine, &data->ph[i], CREATE);
 	}
-//	handle_mutex(data, &data->acc_mtx, LOCK);
 	i = -1;
 	while(++i < (data)->nb_ph)
 	{
