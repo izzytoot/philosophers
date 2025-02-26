@@ -6,11 +6,11 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:46:34 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 16:58:02 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:20:44 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "myphilo.h"
+#include "philo.h"
 
 void	handle_mutex(t_data *data, t_mtx *mtx, t_code code)
 {

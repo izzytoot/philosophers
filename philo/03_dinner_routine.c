@@ -6,11 +6,11 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:27:17 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 18:09:38 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:20:18 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "myphilo.h"
+#include "philo.h"
 
 void	*mr_lonely(void *ph_ptr)
 {

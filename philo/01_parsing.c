@@ -6,11 +6,11 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:44:32 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 15:42:42 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:19:58 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "myphilo.h"
+#include "philo.h"
 
 long	conv_and_check(t_data *data, char *av)
 {

@@ -6,33 +6,16 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:44:36 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 17:43:54 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:20:30 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "myphilo.h"
+#include "philo.h"
 
 void    wait_threads(t_data *data)
 {
     while(!get_bool(data, &data->data_mtx, &data->threads_ready));
 }
-/*
-void		fair(t_philo *philo)
-{
-	if (philo->data->nb_ph % 2 == 0)
-	{
-		if (philo->ph_id % 2 == 0)
-			my_usleep(philo->data, 30000);
-	}
-	else
-	{
-		if (philo->ph_id % 2)
-		{
-			thinking(philo, true);
-		}
-	}
-}
-*/
 
 int	pre_dinner_check(t_philo *philo)
 {

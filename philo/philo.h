@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   myphilo.h                                          :+:      :+:    :+:   */
+/*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:24:12 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 17:15:23 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:21:15 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,6 @@ long		conv_and_check(t_data *data, char *av);
 void		program_init(t_data *data);
 void		alloc_memory_data(t_data *data);
 void		init_philos(t_data *data);
-void		assign_forks(t_data *data);
 
 //03_routine_threads.c
 void		start_dinner(t_data *data);
@@ -163,7 +162,6 @@ void  	 	wait_threads(t_data *data);
 int			pre_dinner_check(t_philo *philo);
 int			ph_eating(t_philo *philo);
 void		handle_forks(t_philo *philo, t_fork_action action);
-//void		fair(t_philo *philo);
 
 // 05_time_functions.c
 long		get_time(t_data *data, t_time	time_unit);

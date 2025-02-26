@@ -6,11 +6,11 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:47:50 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 16:44:42 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:20:37 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "myphilo.h"
+#include "philo.h"
 
 long	get_time(t_data *data, t_time time_unit)
 {

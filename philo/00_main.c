@@ -6,11 +6,11 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:54:47 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 13:27:55 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:19:52 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "myphilo.h"
+#include "philo.h"
 
 int	main(int ac, char **av)
 {

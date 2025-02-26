@@ -6,37 +6,11 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:02:13 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 17:38:18 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:20:09 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "myphilo.h"
-/*
-void	assign_forks(t_data *data)
-{
-	int	i;
-	
-	i = -1;
-	while(++i < data->nb_ph)
-		handle_mutex(data, &data->forks[i], INIT);
-	i = -1;
-		while(++i < data->nb_ph)
-		{
-			handle_mutex(data, &data->ph[i].l_fork_mtx, INIT);
-			handle_mutex(data, &data->ph[i].r_fork_mtx, INIT);
-		}
-	i = 0;
-	data->ph[0].r_fork_mtx = data->forks[i];
-	data->ph[0].l_fork_mtx = data->forks[i + 1];
-	data->ph[data->nb_ph - 1].r_fork_mtx = data->forks[data->nb_ph - 1];
-	data->ph[data->nb_ph - 1].l_fork_mtx = data->forks[i];
-	while(++i < (data->nb_ph - 1))
-	{
-		data->ph[i].r_fork_mtx = data->forks[i];
-		data->ph[i].l_fork_mtx = data->forks[i + 1];
-	}
-}
-*/
+#include "philo.h"
 
 void	init_forks(t_data *data)
 {

@@ -6,15 +6,15 @@
 #    By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/10 15:54:41 by root              #+#    #+#              #
-#    Updated: 2025/02/26 13:43:56 by icunha-t         ###   ########.fr        #
+#    Updated: 2025/02/26 18:20:57 by icunha-t         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #==============================================================================#
 #                                NAMES & PATHS                                 #
 #==============================================================================#
-NAME = myphilo
-HEADER_PATH = myphilo.h
+NAME = philo
+HEADER_PATH = philo.h
 SRCS = 00_main.c 01_parsing.c 02_init.c 03_dinner_routine.c 04_routine_actions.c 05_time_functions.c 06_utils.c 07_closing_dinner.c
 OBJS = $(SRCS:.c=.o)
 #==============================================================================#

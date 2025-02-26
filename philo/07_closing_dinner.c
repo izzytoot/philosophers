@@ -6,11 +6,11 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:50:08 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 17:33:07 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:20:49 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "myphilo.h"
+#include "philo.h"
 
 void	free_and_clean(t_data *data)
 {
