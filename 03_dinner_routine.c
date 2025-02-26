@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:27:17 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 17:09:45 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:09:38 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	*dinner_routine(void *ph_ptr)
 	long	current_time;
 	
 	philo = (t_philo *)ph_ptr;
-	wait_threads(philo->data);
+//	wait_threads(philo->data);
 	current_time = get_time(philo->data, MILLISECONDS);
 	set_time_var(philo->data, &philo->ph_mtx, &philo->last_meal, current_time);
 	while(!end_dinner(philo->data))
@@ -70,6 +70,7 @@ void	start_dinner(t_data *data)
 {
 	int	i;
 	
+	set_time_var(data, &data->data_mtx, &data->start_meal_time, get_time(data, MILLISECONDS));
 	if (data->nb_ph == 1)
 	{	
 		handle_thread(data, &data->data_thread, &mr_lonely, &data->ph[0], CREATE);
@@ -82,7 +83,6 @@ void	start_dinner(t_data *data)
 			handle_thread(data, &data->ph[i].ph_thread, &dinner_routine, &data->ph[i], CREATE);
 	}
 	set_bool_var(data, &data->data_mtx, &data->threads_ready, true);
-	set_time_var(data, &data->data_mtx, &data->start_meal_time, get_time(data, MILLISECONDS));
 	handle_thread(data, &data->mon_thread, &monitor, &data->ph[0], CREATE);
 	i = -1;
 	while(++i < (data)->nb_ph)

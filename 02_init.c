@@ -6,12 +6,12 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:02:13 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 13:44:56 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:38:18 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "myphilo.h"
-
+/*
 void	assign_forks(t_data *data)
 {
 	int	i;
@@ -26,15 +26,25 @@ void	assign_forks(t_data *data)
 			handle_mutex(data, &data->ph[i].r_fork_mtx, INIT);
 		}
 	i = 0;
-		data->ph[0].r_fork_mtx = data->forks[i];
-		data->ph[0].l_fork_mtx = data->forks[i + 1];
-		data->ph[data->nb_ph - 1].r_fork_mtx = data->forks[data->nb_ph - 1];
-		data->ph[data->nb_ph - 1].l_fork_mtx = data->forks[i];
-		while(++i < (data->nb_ph - 1))
-		{
-			data->ph[i].r_fork_mtx = data->forks[i];
-			data->ph[i].l_fork_mtx = data->forks[i + 1];
-		}
+	data->ph[0].r_fork_mtx = data->forks[i];
+	data->ph[0].l_fork_mtx = data->forks[i + 1];
+	data->ph[data->nb_ph - 1].r_fork_mtx = data->forks[data->nb_ph - 1];
+	data->ph[data->nb_ph - 1].l_fork_mtx = data->forks[i];
+	while(++i < (data->nb_ph - 1))
+	{
+		data->ph[i].r_fork_mtx = data->forks[i];
+		data->ph[i].l_fork_mtx = data->forks[i + 1];
+	}
+}
+*/
+
+void	init_forks(t_data *data)
+{
+	int	i;
+	
+	i = -1;
+	while(++i < data->nb_ph)
+		handle_mutex(data, &data->forks[i], INIT);
 }
 
 void	init_philos(t_data *data)
@@ -53,6 +63,8 @@ void	init_philos(t_data *data)
 		philo->ph_dead = false;
 		philo->data = data;
 		philo->last_meal = get_time(philo->data, MILLISECONDS);
+		philo->l_fork_mtx = &data->forks[i];
+		philo->r_fork_mtx = &data->forks[(i + 1) % data->nb_ph];
 		handle_mutex(data, &data->ph[i].ph_mtx, INIT);
 	}
 }
@@ -81,8 +93,8 @@ void	program_init(t_data *data)
 	alloc_memory_data(data);
 	handle_mutex(data, &data->write_mtx, INIT); 
 	handle_mutex(data, &data->data_mtx, INIT);
+	init_forks(data);
 	init_philos(data);
-	assign_forks(data);
 }
 
 

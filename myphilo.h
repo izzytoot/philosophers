@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:24:12 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 16:56:46 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:15:23 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,9 @@ typedef struct s_philo
 	bool		ph_dead;
 	long		last_meal;
 	t_mtx		ph_mtx; 
-	t_mtx		r_fork_mtx;
+	t_mtx		*r_fork_mtx;
 	bool		r_fork; //delete
-	t_mtx		l_fork_mtx;
+	t_mtx		*l_fork_mtx;
 	bool		l_fork; //delete
 }	t_philo;
 

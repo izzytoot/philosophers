@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:50:08 by root              #+#    #+#             */
-/*   Updated: 2025/02/25 19:19:08 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:33:07 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void	free_and_clean(t_data *data)
 		while(++i < data->nb_ph)
 		{
 			handle_mutex(data, &data->ph[i].ph_mtx, DESTROY);
-			handle_mutex(data, &data->ph[i].r_fork_mtx, DESTROY);
-			handle_mutex(data, &data->ph[i].l_fork_mtx, DESTROY);
 			handle_mutex(data, &data->forks[i], DESTROY);
 		}
 		free(data->ph);

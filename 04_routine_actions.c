@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:44:36 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 17:02:52 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:43:54 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,30 @@ void	handle_forks(t_philo *philo, t_fork_action action)
 {
 	if (action == TAKE)
 	{
-		handle_mutex(philo->data, &philo->l_fork_mtx, LOCK);
-		print_ph_status(philo, TOOK_FORK);
-		handle_mutex(philo->data, &philo->r_fork_mtx, LOCK);
-		print_ph_status(philo, TOOK_FORK);
+		{
+			if (philo->ph_id % 2 == 0)
+				my_usleep(philo->data, 500);
+			if (philo->ph_id % 2 == 0)
+			{
+				handle_mutex(philo->data, philo->r_fork_mtx, LOCK);
+				print_ph_status(philo, TOOK_FORK);
+				handle_mutex(philo->data, philo->l_fork_mtx, LOCK);
+				print_ph_status(philo, TOOK_FORK);		
+			}
+			else
+			if (philo->ph_id)
+			{
+				handle_mutex(philo->data, philo->l_fork_mtx, LOCK);
+				print_ph_status(philo, TOOK_FORK);
+				handle_mutex(philo->data, philo->r_fork_mtx, LOCK);
+				print_ph_status(philo, TOOK_FORK);		
+			}
+		}
 	}
 	else if (action == DROP)
 	{
-		handle_mutex(philo->data, &philo->l_fork_mtx, UNLOCK);
-		handle_mutex(philo->data, &philo->r_fork_mtx, UNLOCK);
+		handle_mutex(philo->data, philo->l_fork_mtx, UNLOCK);
+		handle_mutex(philo->data, philo->r_fork_mtx, UNLOCK);
 		print_ph_status(philo, SLEEPING);
 	}
 }
@@ -89,8 +104,8 @@ int	ph_eating(t_philo *philo)
 		philo->data->nb_ph_full++;
 	}
 	philo->ph_eating = false;
+	handle_mutex(philo->data, &philo->ph_mtx, UNLOCK);
 	handle_forks(philo, DROP);
 	my_usleep(philo->data, philo->data->time_to_sleep);
-	handle_mutex(philo->data, &philo->ph_mtx, UNLOCK);
 	return (0);
 }
