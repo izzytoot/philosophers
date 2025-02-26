@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:24:12 by root              #+#    #+#             */
-/*   Updated: 2025/02/25 19:51:45 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 11:32:27 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ typedef struct s_philo
 	bool		ph_eating;
 	bool		ph_full;
 	bool		ph_dead;
-	__uint64_t	last_meal;
+	long	last_meal;
 	t_mtx		ph_mtx; 
 	t_mtx		r_fork_mtx;
 	t_mtx		l_fork_mtx;
@@ -117,10 +117,10 @@ typedef struct s_data
 	long			nb_ph;
 	long			max_meals;
 	long			nb_ph_full;
-	__uint64_t		time_to_die; //u_int64_t - unsigned interger of 64 bits
-	__uint64_t		time_to_eat;
-	__uint64_t		time_to_sleep;
-	__uint64_t		start_meal_time;
+	long		time_to_die; //u_int64_t - unsigned interger of 64 bits
+	long		time_to_eat;
+	long		time_to_sleep;
+	long		start_meal_time;
 	bool			ph_dead;
 	bool			threads_ready;
 	bool			all_ph_full;
@@ -161,9 +161,9 @@ void		handle_forks(t_philo *philo, t_fork_action action);
 int			ph_eating(t_philo *philo);
 
 // 05_time_functions.c
-__uint64_t	get_time(t_data *data, t_time	time_unit);
-void		set_time_var(t_data *data, t_mtx *mtx, __uint64_t *result, __uint64_t time);
-void		my_usleep(t_data *data, __uint64_t sleep_time);
+long	get_time(t_data *data, t_time	time_unit);
+void		set_time_var(t_data *data, t_mtx *mtx, long *result, long time);
+void		my_usleep(t_data *data, long sleep_time);
 
 // 06_utils
 void		handle_mutex(t_data *data, t_mtx *mtx, t_code code);

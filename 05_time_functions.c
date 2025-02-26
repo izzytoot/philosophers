@@ -6,13 +6,13 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:47:50 by root              #+#    #+#             */
-/*   Updated: 2025/02/25 18:15:30 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 11:33:23 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "myphilo.h"
 
-__uint64_t	get_time(t_data *data, t_time time_unit)
+long	get_time(t_data *data, t_time time_unit)
 {
 	struct timeval	current_time;
 
@@ -28,17 +28,17 @@ __uint64_t	get_time(t_data *data, t_time time_unit)
 	return (0);
 }
 
-void	set_time_var(t_data *data, t_mtx *mtx, __uint64_t *result, __uint64_t time)
+void	set_time_var(t_data *data, t_mtx *mtx, long *result, long time)
 {
 	handle_mutex(data, mtx, LOCK);
 	*result = time;
 	handle_mutex(data, mtx, UNLOCK);
 }
 
-void	my_usleep(t_data *data, __uint64_t sleep_time)
+void	my_usleep(t_data *data, long sleep_time)
 {
-	__uint64_t	start;
-	__uint64_t	current;
+	long	start;
+	long	current;
 	
 	start = get_time(data, MICROSECONDS);
 	current = start;

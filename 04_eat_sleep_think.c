@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:44:36 by root              #+#    #+#             */
-/*   Updated: 2025/02/25 19:50:27 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 11:35:04 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	handle_forks(t_philo *philo, t_fork_action action)
 }
 int	ph_eating(t_philo *philo)
 {
-	__uint64_t	current_time;
+	long	current_time;
 	
 	wait_threads(philo->data);
 	handle_forks(philo, TAKE);

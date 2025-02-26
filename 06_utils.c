@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:46:34 by root              #+#    #+#             */
-/*   Updated: 2025/02/25 19:24:49 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 11:33:33 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	set_bool_var(t_data *data, t_mtx *mtx, bool *boolean, bool value)
 //WITH EMOJIS AND COLORS
 void	print_ph_status(t_philo *philo, t_ph_status status)
 {
-	__uint64_t	current_time;
-	__uint64_t	time_passed;
+	long	current_time;
+	long	time_passed;
 	
 	handle_mutex(philo->data, &philo->data->write_mtx, LOCK);
  	current_time = get_time(philo->data, MILLISECONDS);

@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:27:17 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 11:31:11 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 11:45:03 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,20 @@ void	*monitor(void *ph_ptr)
 	t_philo	*philo;
 		
 	philo = (t_philo *)ph_ptr;
-	while(!philo->data->all_ph_full || !philo->data->ph_dead)
+	while(!philo->data->all_ph_full && !philo->data->ph_dead)
 	{
 		if (philo->data->nb_ph_full >= philo->data->nb_ph)
+		{
 			set_bool_var(philo->data, &philo->data->data_mtx, &philo->data->all_ph_full, true);
+			break;
+		}	
 	}
 	return (NULL);
 }
 
 int	pre_dinner_check(t_philo *philo)
 {
-	__uint64_t	time_passed;
+	long	time_passed;
 	
 	if(!philo->data->ph_dead)
 	{
