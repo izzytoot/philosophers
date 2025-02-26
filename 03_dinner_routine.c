@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:27:17 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 15:45:23 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:09:45 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	start_dinner(t_data *data)
 		while(++i < data->nb_ph)
 			handle_thread(data, &data->ph[i].ph_thread, &dinner_routine, &data->ph[i], CREATE);
 	}
-	set_bool_var(data, &data->data_mtx, &data->threads_ready, true); // do we need this?
+	set_bool_var(data, &data->data_mtx, &data->threads_ready, true);
 	set_time_var(data, &data->data_mtx, &data->start_meal_time, get_time(data, MILLISECONDS));
 	handle_thread(data, &data->mon_thread, &monitor, &data->ph[0], CREATE);
 	i = -1;

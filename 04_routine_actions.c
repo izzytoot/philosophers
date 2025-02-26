@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:44:36 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 15:54:34 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:02:52 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,8 @@ void	handle_forks(t_philo *philo, t_fork_action action)
 	if (action == TAKE)
 	{
 		handle_mutex(philo->data, &philo->l_fork_mtx, LOCK);
-		philo->l_fork = true; //to delete
-		philo->r_fork = false; //to delete
 		print_ph_status(philo, TOOK_FORK);
 		handle_mutex(philo->data, &philo->r_fork_mtx, LOCK);
-		philo->r_fork = true; //to delete
-		philo->l_fork = false; //to delete
 		print_ph_status(philo, TOOK_FORK);
 	}
 	else if (action == DROP)
@@ -78,6 +74,7 @@ void	handle_forks(t_philo *philo, t_fork_action action)
 		print_ph_status(philo, SLEEPING);
 	}
 }
+
 int	ph_eating(t_philo *philo)
 {
 	handle_forks(philo, TAKE);
@@ -86,7 +83,7 @@ int	ph_eating(t_philo *philo)
 	handle_mutex(philo->data, &philo->ph_mtx, LOCK);
 	my_usleep(philo->data, philo->data->time_to_eat);
 	philo->meal_count++;
-	if (philo->data->av5 &&philo->meal_count >= philo->data->max_meals)
+	if (philo->data->av5 && philo->meal_count >= philo->data->max_meals)
 	{
 		philo->ph_full = true;
 		philo->data->nb_ph_full++;
