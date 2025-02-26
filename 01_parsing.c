@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   01_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:44:32 by root              #+#    #+#             */
-/*   Updated: 2025/02/21 19:28:54 by root             ###   ########.fr       */
+/*   Updated: 2025/02/26 15:42:42 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,15 @@ void	init_input_data(t_data *data, char **av)
 	if (data->time_to_die < 60000 || data->time_to_eat < 60000 || data->time_to_sleep < 60000)
 		error_and_exit(data, RED ERR_TIME_LIMIT RES, 2);
 	if (av[5])
+	{
 		data->max_meals = conv_and_check(data, av[5]);
+		data->av5 = true;	
+	}
 	else
+	{
 		data->max_meals = -1;
+		data->av5 = false;
+	}
 }
 
 void	input_parsing_and_sort(t_data *data, char **av)

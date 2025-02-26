@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:46:34 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 11:33:33 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:19:33 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,16 @@ void	set_bool_var(t_data *data, t_mtx *mtx, bool *boolean, bool value)
 	handle_mutex(data, mtx, UNLOCK);
 }
 
+bool	get_bool(t_data *data, t_mtx *mtx, bool *boolean)
+{
+	bool	result;
+	
+	handle_mutex(data, mtx, LOCK);
+	result = *boolean;
+	handle_mutex(data, mtx, UNLOCK);
+	return (result);
+}
+
 //WITH EMOJIS AND COLORS
 void	print_ph_status(t_philo *philo, t_ph_status status)
 {
@@ -75,15 +85,20 @@ void	print_ph_status(t_philo *philo, t_ph_status status)
 	handle_mutex(philo->data, &philo->data->write_mtx, LOCK);
  	current_time = get_time(philo->data, MILLISECONDS);
 	time_passed =  current_time - philo->data->start_meal_time;
-	if (status == TOOK_FORK)
-		printf("%-6lu"YLL" %d has taken a fork"RES" %s\n", time_passed, philo->ph_id, "\U0001f374");
-	else if (status == EATING)
-		printf("%-6lu"GR" %d is eating"RES" %s\n", time_passed,philo->ph_id, "\U0001f60B");
-	else if (status == SLEEPING)
+	if (status == TOOK_FORK && !end_dinner(philo->data))
+	{
+		if (philo->l_fork == true && philo->r_fork == false)
+			printf("%-6lu"YLL" %d has taken left fork"RES" %s\n", time_passed, philo->ph_id, "\U0001f374");
+		else if(philo->r_fork == true && philo->l_fork == false)
+			printf("%-6lu"YLL" %d has taken right fork"RES" %s\n", time_passed, philo->ph_id, "\U0001f374");
+	}
+	else if (status == EATING && !end_dinner(philo->data))
+		printf("%-6lu"GR" %d is eating"RES" %s\n", time_passed, philo->ph_id, "\U0001f60B");
+	else if (status == SLEEPING && !end_dinner(philo->data))
 		printf("%-6lu"YLL" %d is sleeping"RES" %s\n", time_passed, philo->ph_id, "\U0001f634");
-	else if (status == THINKING)
+	else if (status == THINKING && !end_dinner(philo->data))
 		printf("%-6lu"YLL" %d is thinking"RES" %s\n", time_passed, philo->ph_id, "\U0001f914");
-	else if (status == DIED)
+	else if (status == DIED && !end_dinner(philo->data))
 		printf("%-6lu"RED" %d died"RES"%s\n", time_passed, philo->ph_id, "\U0002f620");
 	handle_mutex(philo->data, &philo->data->write_mtx, UNLOCK);
 }

@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:02:13 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 11:30:35 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 13:44:56 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	init_philos(t_data *data)
 		philo->ph_eating = false;
 		philo->ph_full = false;
 		philo->ph_dead = false;
-		philo->last_meal = get_time(philo->data, MILLISECONDS);
 		philo->data = data;
+		philo->last_meal = get_time(philo->data, MILLISECONDS);
 		handle_mutex(data, &data->ph[i].ph_mtx, INIT);
 	}
 }
@@ -73,7 +73,7 @@ void	alloc_memory_data(t_data *data)
 void	program_init(t_data *data)
 {
 	data->start_meal_time = 0;
-	data->ph_dead = false;
+	data->end_dinner = false;
 	data->nb_ph_full = 0;
 	data->all_ph_full = false;
 	data->threads_ready = false;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   04_eat_sleep_think.c                               :+:      :+:    :+:   */
+/*   04_routine_actions.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:44:36 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 11:35:04 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:54:34 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,48 @@
 
 void    wait_threads(t_data *data)
 {
-    while(data->threads_ready == false);
-//   while(!get_bool(data, &data->acc_mtx, &data->threads_ready));
+    while(!get_bool(data, &data->data_mtx, &data->threads_ready));
+}
+/*
+void		fair(t_philo *philo)
+{
+	if (philo->data->nb_ph % 2 == 0)
+	{
+		if (philo->ph_id % 2 == 0)
+			my_usleep(philo->data, 30000);
+	}
+	else
+	{
+		if (philo->ph_id % 2)
+		{
+			thinking(philo, true);
+		}
+	}
+}
+*/
 
+int	pre_dinner_check(t_philo *philo)
+{
+	long	time_passed;
+	
+	if(!end_dinner(philo->data))
+	{
+		time_passed = get_time(philo->data, MILLISECONDS) - philo->last_meal;
+   		if (time_passed >= philo->data->time_to_die && !end_dinner(philo->data) && get_bool(philo->data, &philo->ph_mtx, &philo->ph_eating)) // ver se é preciso check ph_eating
+		{
+			set_bool_var(philo->data, &philo->ph_mtx, &philo->ph_dead, true);
+    	  	print_ph_status(philo, DIED);
+			set_bool_var(philo->data, &philo->data->data_mtx, &philo->data->end_dinner, true);
+			return (1);
+		}
+	}
+	if(get_bool(philo->data, &philo->ph_mtx, &philo->data->all_ph_full) && !end_dinner(philo->data))
+	{
+		printf("philos are full!\n"); //to delete
+		set_bool_var(philo->data, &philo->data->data_mtx, &philo->data->end_dinner, true);
+		return (1);
+	}
+	return(0);
 }
 
 void	handle_forks(t_philo *philo, t_fork_action action)
@@ -24,8 +63,12 @@ void	handle_forks(t_philo *philo, t_fork_action action)
 	if (action == TAKE)
 	{
 		handle_mutex(philo->data, &philo->l_fork_mtx, LOCK);
+		philo->l_fork = true; //to delete
+		philo->r_fork = false; //to delete
 		print_ph_status(philo, TOOK_FORK);
 		handle_mutex(philo->data, &philo->r_fork_mtx, LOCK);
+		philo->r_fork = true; //to delete
+		philo->l_fork = false; //to delete
 		print_ph_status(philo, TOOK_FORK);
 	}
 	else if (action == DROP)
@@ -37,18 +80,13 @@ void	handle_forks(t_philo *philo, t_fork_action action)
 }
 int	ph_eating(t_philo *philo)
 {
-	long	current_time;
-	
-	wait_threads(philo->data);
 	handle_forks(philo, TAKE);
 	set_bool_var(philo->data, &philo->ph_mtx, &philo->ph_eating, true);
-	current_time = get_time(philo->data, MILLISECONDS);
-	set_time_var(philo->data, &philo->ph_mtx, &philo->last_meal, current_time);
 	print_ph_status(philo, EATING);
 	handle_mutex(philo->data, &philo->ph_mtx, LOCK);
 	my_usleep(philo->data, philo->data->time_to_eat);
 	philo->meal_count++;
-	if (philo->meal_count >= philo->data->max_meals)
+	if (philo->data->av5 &&philo->meal_count >= philo->data->max_meals)
 	{
 		philo->ph_full = true;
 		philo->data->nb_ph_full++;

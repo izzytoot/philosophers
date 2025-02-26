@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: root <root@student.42.fr>                  +#+  +:+       +#+         #
+#    By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/10 15:54:41 by root              #+#    #+#              #
-#    Updated: 2025/02/21 13:18:13 by root             ###   ########.fr        #
+#    Updated: 2025/02/26 13:43:56 by icunha-t         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 #==============================================================================#
 NAME = myphilo
 HEADER_PATH = myphilo.h
-SRCS = 00_main.c 01_parsing.c 02_init.c 03_dinner_routine.c 04_eat_sleep_think.c 05_time_functions.c 06_utils.c 07_closing_dinner.c
+SRCS = 00_main.c 01_parsing.c 02_init.c 03_dinner_routine.c 04_routine_actions.c 05_time_functions.c 06_utils.c 07_closing_dinner.c
 OBJS = $(SRCS:.c=.o)
 #==============================================================================#
 #                            FLAGS & COMMANDS                                  #

@@ -9,7 +9,7 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "/home/icunha-t/Commoncore/my_philo/myphilo",
-			"args": ["3", "600", "400", "400" "2"] 
+			"args": ["3", "200", "60", "60"] 
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],

@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:24:12 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 11:32:27 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:54:32 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,12 @@ typedef struct s_philo
 	bool		ph_eating;
 	bool		ph_full;
 	bool		ph_dead;
-	long	last_meal;
+	long		last_meal;
 	t_mtx		ph_mtx; 
 	t_mtx		r_fork_mtx;
+	bool		r_fork; //delete
 	t_mtx		l_fork_mtx;
+	bool		l_fork; //delete
 }	t_philo;
 
 typedef struct s_data
@@ -121,9 +123,10 @@ typedef struct s_data
 	long		time_to_eat;
 	long		time_to_sleep;
 	long		start_meal_time;
-	bool			ph_dead;
+	bool			end_dinner;
 	bool			threads_ready;
 	bool			all_ph_full;
+	bool			av5;
 	t_mtx			*forks;
 	t_mtx			write_mtx;
 	t_mtx			data_mtx;
@@ -148,20 +151,21 @@ void		alloc_memory_data(t_data *data);
 void		init_philos(t_data *data);
 void		assign_forks(t_data *data);
 
-//03_routine.c
+//03_routine_threads.c
 void		start_dinner(t_data *data);
 void		*monitor(void *data_ptr);
 void		*dinner_routine(void *ph_ptr);
-int			pre_dinner_check(t_philo *philo);
 void		*mr_lonely(void *ph_ptr);
 
-// 04_eat_sleep_think.c
+// 04_routine_actions.c
 void  	 	wait_threads(t_data *data);
-void		handle_forks(t_philo *philo, t_fork_action action);
+int			pre_dinner_check(t_philo *philo);
 int			ph_eating(t_philo *philo);
+void		handle_forks(t_philo *philo, t_fork_action action);
+//void		fair(t_philo *philo);
 
 // 05_time_functions.c
-long	get_time(t_data *data, t_time	time_unit);
+long		get_time(t_data *data, t_time	time_unit);
 void		set_time_var(t_data *data, t_mtx *mtx, long *result, long time);
 void		my_usleep(t_data *data, long sleep_time);
 
@@ -169,10 +173,14 @@ void		my_usleep(t_data *data, long sleep_time);
 void		handle_mutex(t_data *data, t_mtx *mtx, t_code code);
 void		handle_thread(t_data *data, pthread_t *thread, void *(*function)(void *), void *t_data, t_code code);
 void		set_bool_var(t_data *data, t_mtx *mtx, bool *boolean, bool value);
+bool		get_bool(t_data *data, t_mtx *mtx, bool *boolean);
 void		print_ph_status(t_philo *philo, t_ph_status status);
 
 // 07_closing_dinner.c
 void		error_and_exit(t_data *data, char *message, int fd);
 void		free_and_clean(t_data *data);
+
+
+bool	end_dinner(t_data *data);
 
 #endif
