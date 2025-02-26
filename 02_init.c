@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:02:13 by root              #+#    #+#             */
-/*   Updated: 2025/02/25 19:52:09 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 11:30:35 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	program_init(t_data *data)
 	data->nb_ph_full = 0;
 	data->all_ph_full = false;
 	data->threads_ready = false;
-	data->start_meal_time = get_time(data, MILLISECONDS);
+	data->start_meal_time = 0;
 	alloc_memory_data(data);
 	handle_mutex(data, &data->write_mtx, INIT); 
 	handle_mutex(data, &data->data_mtx, INIT);

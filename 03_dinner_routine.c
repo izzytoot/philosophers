@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:27:17 by root              #+#    #+#             */
-/*   Updated: 2025/02/25 20:08:33 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/26 11:31:11 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,8 @@ void	*monitor(void *ph_ptr)
 	philo = (t_philo *)ph_ptr;
 	while(!philo->data->all_ph_full || !philo->data->ph_dead)
 	{
-		handle_mutex(philo->data, &philo->ph_mtx, LOCK);
 		if (philo->data->nb_ph_full >= philo->data->nb_ph)
-			philo->data->all_ph_full = true;
-		handle_mutex(philo->data, &philo->ph_mtx, UNLOCK);
+			set_bool_var(philo->data, &philo->data->data_mtx, &philo->data->all_ph_full, true);
 	}
 	return (NULL);
 }
@@ -86,9 +84,6 @@ void	start_dinner(t_data *data)
 {
 	int	i;
 	
-//	set_time_var(data, &data->data_mtx, &data->start_meal_time, get_time(data, MILLISECONDS));
-	if (data->max_meals > 0)
-		handle_thread(data, &data->mon_thread, &monitor, &data->ph[0], CREATE);
 	if (data->nb_ph == 1)
 	{	
 		handle_thread(data, &data->data_thread, &mr_lonely, &data->ph[0], CREATE);
@@ -100,10 +95,11 @@ void	start_dinner(t_data *data)
 		while(++i < data->nb_ph)
 			handle_thread(data, &data->ph[i].ph_thread, &dinner_routine, &data->ph[i], CREATE);
 	}
+	set_time_var(data, &data->data_mtx, &data->start_meal_time, get_time(data, MILLISECONDS));
+	handle_thread(data, &data->mon_thread, &monitor, &data->ph[0], CREATE);
 	i = -1;
 	while(++i < (data)->nb_ph)
 		handle_thread(data, &data->ph[i].ph_thread, NULL, NULL, JOIN);
-	if (data->max_meals > 0)
-        handle_thread(data, &data->mon_thread, NULL, NULL, JOIN);
+	handle_thread(data, &data->mon_thread, NULL, NULL, JOIN);
 	free_and_clean(data);
 }
