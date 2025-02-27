@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:46:34 by root              #+#    #+#             */
-/*   Updated: 2025/02/27 12:27:00 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/27 13:41:19 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,10 @@ void	print_ph_status(t_philo *philo, t_ph_status status)
 
 void	print_ph_status(t_philo *philo, t_ph_status status)
 {
-	
 	long	current_time;
 	long	time_passed;
-	
- 	current_time = get_time(philo->data, MILLISECONDS);
+ 	
+	current_time = get_time(philo->data, MILLISECONDS);
 	time_passed =  current_time - philo->data->start_meal_time;
 	if (!end_dinner(philo->data, NULL, MEAL_END))
 	{

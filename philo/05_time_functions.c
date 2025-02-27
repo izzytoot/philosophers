@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:47:50 by root              #+#    #+#             */
-/*   Updated: 2025/02/27 12:26:11 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/27 13:48:06 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,16 @@ void	set_time_var(t_data *data, t_mtx *mtx, long *result, long time)
 	handle_mutex(data, mtx, UNLOCK);
 }
 
+long	get_time_var(t_data *data, t_mtx *mtx, long *time)
+{
+	long	result;
+	
+	handle_mutex(data, mtx, LOCK);
+	result = *time;
+	handle_mutex(data, mtx, UNLOCK);
+	return(result);
+}
+
 void	my_usleep(t_data *data, long sleep_time)
 {
 	long	start;
@@ -51,7 +61,6 @@ void	my_usleep(t_data *data, long sleep_time)
  		if (remaining > 1000)
         	usleep(remaining / 2);
 		else
-			while(get_time(data, MICROSECONDS) - start < sleep_time)
-				;
+			while(get_time(data, MICROSECONDS) - start < sleep_time);
 	}
 }

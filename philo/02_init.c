@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:02:13 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 18:20:09 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:50:16 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,14 @@ void	program_init(t_data *data)
 	data->threads_ready = false;
 	data->start_meal_time = 0;
 	alloc_memory_data(data);
-	handle_mutex(data, &data->write_mtx, INIT); 
+	handle_mutex(data, &data->write_mtx, INIT);
+	data->write_mtx_check = true; 
 	handle_mutex(data, &data->data_mtx, INIT);
+	data->data_mtx_check = true;
 	init_forks(data);
+	data->forks_check = true;
 	init_philos(data);
+	data->ph_check = true;
 }
 
 

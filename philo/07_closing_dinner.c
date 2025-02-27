@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:50:08 by root              #+#    #+#             */
-/*   Updated: 2025/02/27 12:23:02 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:51:06 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ bool	end_dinner(t_data *data, t_philo *philo, t_end code)
 		return(get_bool(data, &philo->ph_mtx, &philo->ph_full));
 	else if (code == MEAL_END)
 		return(get_bool(data, &data->data_mtx, &data->end_dinner));
-	return (NULL);
+	return (false);
 }
 
 void	free_and_clean(t_data *data)
@@ -26,7 +26,7 @@ void	free_and_clean(t_data *data)
 	int	i;
 
 	i = -1;
-	if (data->ph)
+	if (data->ph_check)
 	{
 		while(++i < data->nb_ph)
 		{
@@ -36,13 +36,15 @@ void	free_and_clean(t_data *data)
 		free(data->ph);
 		data->ph = NULL;
 	}
-	if (data->forks)
+	if (data->forks_check)
 	{
 		free(data->forks);
 		data->forks = NULL;
 	}
-	handle_mutex(data, &data->write_mtx, DESTROY);
-	handle_mutex(data, &data->data_mtx, DESTROY);
+	if (data->write_mtx_check)
+		handle_mutex(data, &data->write_mtx, DESTROY);
+	if (data->data_mtx_check)
+		handle_mutex(data, &data->data_mtx, DESTROY);
 }
 
 void	error_and_exit(t_data *data, char *message, int fd)

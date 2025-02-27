@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:24:12 by root              #+#    #+#             */
-/*   Updated: 2025/02/27 12:23:53 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:50:41 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,7 @@ typedef struct s_philo
 	long		last_meal;
 	t_mtx		ph_mtx; 
 	t_mtx		*r_fork_mtx;
-	bool		r_fork; //delete
 	t_mtx		*l_fork_mtx;
-	bool		l_fork; //delete
 }	t_philo;
 
 typedef struct s_data
@@ -126,17 +124,21 @@ typedef struct s_data
 	long			nb_ph;
 	long			max_meals;
 	long			nb_ph_full;
-	long		time_to_die; //u_int64_t - unsigned interger of 64 bits
-	long		time_to_eat;
-	long		time_to_sleep;
-	long		start_meal_time;
+	long			time_to_die;
+	long			time_to_eat;
+	long			time_to_sleep;
+	long			start_meal_time;
+	t_mtx			*forks;
+	t_mtx			write_mtx;
+	t_mtx			data_mtx;
 	bool			end_dinner;
 	bool			threads_ready;
 	bool			all_ph_full;
 	bool			av5;
-	t_mtx			*forks;
-	t_mtx			write_mtx;
-	t_mtx			data_mtx;
+	bool			write_mtx_check;
+	bool			data_mtx_check;
+	bool			forks_check;
+	bool			ph_check;
 }	t_data;
 
 /* ************************************************************************** */
@@ -148,7 +150,7 @@ int			main(int ac, char **av);
 
 //01_parsing.c
 void		input_parsing_and_sort(t_data *data, char **av);
-void		basic_checker(t_data *data, char *av);
+void		basic_checker(char *av);
 void		init_input_data(t_data *data, char **av);
 long		conv_and_check(t_data *data, char *av);
 	
@@ -172,6 +174,7 @@ void		handle_forks(t_philo *philo, t_fork_action action);
 // 05_time_functions.c
 long		get_time(t_data *data, t_time	time_unit);
 void		set_time_var(t_data *data, t_mtx *mtx, long *result, long time);
+long		get_time_var(t_data *data, t_mtx *mtx, long *time);
 void		my_usleep(t_data *data, long sleep_time);
 
 // 06_utils

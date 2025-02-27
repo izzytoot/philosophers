@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:27:17 by root              #+#    #+#             */
-/*   Updated: 2025/02/27 12:29:39 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:16:31 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	*dinner_routine(void *ph_ptr)
 	wait_threads(philo->data);
 	current_time = get_time(philo->data, MILLISECONDS);
 	set_time_var(philo->data, &philo->ph_mtx, &philo->last_meal, current_time);
-	while(!end_dinner(philo->data, NULL, MEAL_END)&& !end_dinner(philo->data, philo, PH_FULL))
+	while(!end_dinner(philo->data, NULL, MEAL_END) && !end_dinner(philo->data, philo, PH_FULL))
 	{
 		if (pre_dinner_check(philo))
 			break;
@@ -83,5 +83,4 @@ void	start_dinner(t_data *data)
 	while(++i < (data)->nb_ph)
 		handle_thread(data, &data->ph[i].ph_thread, NULL, NULL, JOIN);
 	handle_thread(data, &data->mon_thread, NULL, NULL, JOIN);
-	free_and_clean(data);
 }
