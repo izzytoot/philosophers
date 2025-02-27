@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:27:17 by root              #+#    #+#             */
-/*   Updated: 2025/02/27 17:30:54 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:40:19 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,23 @@ void	*mr_lonely(void *ph_ptr)
 	}
 	return (NULL);
 }
-
-void	*monitor(void *ph_ptr)
+//PHILOS + 1 FOR PASSING PHILO INFO
+void	*monitor(void *data_ptr)
 {
-	t_philo	*philo;
+	t_data	*data;
 	long	start_time;
 	long	time_passed;
 	long	time_to_die;
 	long	current_time;
 	long	last_meal_time;
 		
-	philo = (t_philo *)ph_ptr;
+	data = (t_data *)data_ptr;
 	//wait_threads(philo->data);
-   	start_time = get_time_var(philo->data, &philo->ph_mtx, &philo->data->start_meal_time);
-	while(!end_dinner(philo->data, philo, MEAL_END))
+   	start_time = get_time_var(data, &data->data_mtx, &data->start_meal_time);
+	while(!end_dinner(data, NULL, MEAL_END))
 	{
-		current_time = get_time(philo->data, MILLISECONDS);
-		last_meal_time = get_time_var(philo->data, &philo->ph_mtx, &philo->last_meal);
+		current_time = get_time(data, MILLISECONDS);
+		last_meal_time = get_time_var(data, &data->, &data->last_meal);
 		time_passed =  current_time - last_meal_time;
 		time_to_die = get_time_var(philo->data, &philo->ph_mtx, &philo->data->time_to_die) / 1000;		
 		printf("Current time: %ld\n", current_time - start_time);
@@ -111,7 +111,7 @@ void	start_dinner(t_data *data)
 	int	i;
 	
 	set_time_var(data, &data->data_mtx, &data->start_meal_time, get_time(data, MILLISECONDS));
-	handle_thread(data, &data->mon_thread, &monitor, &data->ph[0], CREATE);
+	handle_thread(data, &data->mon_thread, &monitor, &data, CREATE);
 	if (data->nb_ph == 1)
 	{	
 		handle_thread(data, &data->data_thread, &mr_lonely, &data->ph[0], CREATE);
