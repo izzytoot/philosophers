@@ -6,11 +6,20 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:50:08 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 18:20:49 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/27 12:23:02 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+bool	end_dinner(t_data *data, t_philo *philo, t_end code)
+{
+	if (code == PH_FULL)
+		return(get_bool(data, &philo->ph_mtx, &philo->ph_full));
+	else if (code == MEAL_END)
+		return(get_bool(data, &data->data_mtx, &data->end_dinner));
+	return (NULL);
+}
 
 void	free_and_clean(t_data *data)
 {

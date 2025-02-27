@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:24:12 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 18:21:15 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/27 12:23:53 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,12 @@ typedef enum s_code
     DETACH,
 }	t_code;
 
+typedef enum s_end
+{
+	PH_FULL,
+	MEAL_END,
+}	t_end;
+
 typedef struct s_philo
 {
 	t_data		*data;
@@ -160,7 +166,7 @@ void		*mr_lonely(void *ph_ptr);
 // 04_routine_actions.c
 void  	 	wait_threads(t_data *data);
 int			pre_dinner_check(t_philo *philo);
-int			ph_eating(t_philo *philo);
+void		ph_eating(t_philo *philo);
 void		handle_forks(t_philo *philo, t_fork_action action);
 
 // 05_time_functions.c
@@ -176,10 +182,8 @@ bool		get_bool(t_data *data, t_mtx *mtx, bool *boolean);
 void		print_ph_status(t_philo *philo, t_ph_status status);
 
 // 07_closing_dinner.c
+bool		end_dinner(t_data *data, t_philo *philo, t_end code);
 void		error_and_exit(t_data *data, char *message, int fd);
 void		free_and_clean(t_data *data);
-
-
-bool	end_dinner(t_data *data);
 
 #endif

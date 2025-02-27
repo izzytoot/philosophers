@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:47:50 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 18:20:37 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/27 12:26:11 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	my_usleep(t_data *data, long sleep_time)
 	start = get_time(data, MICROSECONDS);
 	while (get_time(data, MICROSECONDS) - start < sleep_time)
 	{
-		if (end_dinner(data))
+		if (end_dinner(data, NULL, MEAL_END))
 			break ;
 		time_passed = get_time(data, MICROSECONDS) - start;
 		remaining = sleep_time - time_passed;

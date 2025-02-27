@@ -6,7 +6,7 @@
 /*   By: icunha-t <icunha-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:46:34 by root              #+#    #+#             */
-/*   Updated: 2025/02/26 18:20:44 by icunha-t         ###   ########.fr       */
+/*   Updated: 2025/02/27 12:27:00 by icunha-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,50 +75,55 @@ bool	get_bool(t_data *data, t_mtx *mtx, bool *boolean)
 	handle_mutex(data, mtx, UNLOCK);
 	return (result);
 }
-
+/*
 //WITH EMOJIS AND COLORS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 void	print_ph_status(t_philo *philo, t_ph_status status)
 {
 	long	current_time;
 	long	time_passed;
+
+ 	current_time = get_time(philo->data, MILLISECONDS);
+	time_passed =  current_time - philo->data->start_meal_time;
+	if (!end_dinner(philo->data, , MEAL_END))
+	{
+		handle_mutex(philo->data, &philo->data->write_mtx, LOCK);
+		if (status == TOOK_FORK)
+			printf("%-6ld"YLL" %d has taken fork"RES" %s\n", time_passed, philo->ph_id, "\U0001f374");
+		else if (status == EATING)
+			printf("%-6ld"GR" %d is eating"RES" %s\n", time_passed, philo->ph_id, "\U0001f60B");
+		else if (status == SLEEPING)
+			printf("%-6ld"YLL" %d is sleeping"RES" %s\n", time_passed, philo->ph_id, "\U0001f634");
+		else if (status == THINKING)
+			printf("%-6ld"YLL" %d is thinking"RES" %s\n", time_passed, philo->ph_id, "\U0001f914");
+		else if (status == DIED)
+			printf("%-6ld"RED" %d died"RES"%s\n", time_passed, philo->ph_id, "\U0002f620");
+		handle_mutex(philo->data, &philo->data->write_mtx, UNLOCK);
+	}
+}
+*/
+
+void	print_ph_status(t_philo *philo, t_ph_status status)
+{
+	
+	long	current_time;
+	long	time_passed;
 	
  	current_time = get_time(philo->data, MILLISECONDS);
 	time_passed =  current_time - philo->data->start_meal_time;
-	handle_mutex(philo->data, &philo->data->write_mtx, LOCK);
-	if (status == TOOK_FORK && !end_dinner(philo->data))
-		printf("%-6ld"YLL" %d has taken fork"RES" %s\n", time_passed, philo->ph_id, "\U0001f374");
-	else if (status == EATING && !end_dinner(philo->data))
-		printf("%-6ld"GR" %d is eating"RES" %s\n", time_passed, philo->ph_id, "\U0001f60B");
-	else if (status == SLEEPING && !end_dinner(philo->data))
-		printf("%-6ld"YLL" %d is sleeping"RES" %s\n", time_passed, philo->ph_id, "\U0001f634");
-	else if (status == THINKING && !end_dinner(philo->data))
-		printf("%-6ld"YLL" %d is thinking"RES" %s\n", time_passed, philo->ph_id, "\U0001f914");
-	else if (status == DIED && !end_dinner(philo->data))
-		printf("%-6ld"RED" %d died"RES"%s\n", time_passed, philo->ph_id, "\U0002f620");
-	handle_mutex(philo->data, &philo->data->write_mtx, UNLOCK);
-}
-/*
-void	print_ph_status(t_philo *philo, t_ph_status status)
-{
-	long time_passed;
-
-	time_passed = (get_time(philo->program, MILLISECONDS)) - (philo->program->starting_time);
-	if (!true_or_false(philo->program, &philo->program->access_mutex, &philo->program->time_is_up))
+	if (!end_dinner(philo->data, NULL, MEAL_END))
 	{
-		handle_mutex(philo->program, &philo->program->access_mutex, LOCK);
+		handle_mutex(philo->data, &philo->data->write_mtx, LOCK);
 		if (status == TOOK_FORK)
-			printf("%-6ld %d has taken a fork\n", time_passed, philo->id);
+			printf("%-6ld %d has taken a fork\n", time_passed, philo->ph_id);
 		else if (status == EATING)
-			printf("%-6ld"G" %d is eating\n"RES, time_passed, philo->id);
+			printf("%-6ld %d is eating\n", time_passed, philo->ph_id);
 		else if (status == SLEEPING)
-			printf("%-6ld %d is sleeping\n"RES, time_passed, philo->id);
+			printf("%-6ld %d is sleeping\n", time_passed, philo->ph_id);
 		else if (status == THINKING)
-			printf("%-6ld %d is thinking\n"RES, time_passed, philo->id);
+			printf("%-6ld %d is thinking\n", time_passed, philo->ph_id);
 		else if (status == DIED)
-			printf("%-6ld"R" %d died\n"RES, time_passed, philo->id);
-
+			printf("%-6ld %d died\n", time_passed, philo->ph_id);
+		handle_mutex(philo->data, &philo->data->write_mtx, UNLOCK);
 	}
-	handle_mutex(philo->program, &philo->program->access_mutex, UNLOCK);
-
 }
-*/
+
