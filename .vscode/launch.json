@@ -9,7 +9,7 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "/home/42/philosophers/philo/philo",
-			"args": ["2", "800", "200", "200", "2"],
+			"args": ["1", "800", "200", "200", "3"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],

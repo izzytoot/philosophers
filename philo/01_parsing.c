@@ -76,6 +76,10 @@ void	input_parsing_and_sort(t_data *data, char **av)
 	i = 0;
 	if (!data)
 		error_and_exit(data, RED ERR_MEM RES, 2);
+	data->ph_check = false;
+	data->forks_check = false;
+	data->write_mtx_check = false;
+	data->data_mtx_check = false;
 	while(av[++i])
 		basic_checker(av[i]);
 	init_input_data(data, av);

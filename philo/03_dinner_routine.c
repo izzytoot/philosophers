@@ -17,12 +17,11 @@ void	*mr_lonely(void *ph_ptr)
 	t_philo	*philo;
 
 	philo = (t_philo *)ph_ptr;
+	set_time_var(philo->data, &philo->ph_mtx, &philo->last_meal, get_time(philo->data, MILLISECONDS));
 	print_ph_status(philo, TOOK_FORK);
 	while(!end_dinner(philo->data, NULL, MEAL_END))
 	{
-		handle_mutex(philo->data, &philo->ph_mtx, LOCK);
-		my_usleep(philo->data, 200);
-		handle_mutex(philo->data, &philo->ph_mtx, UNLOCK);
+		my_usleep(philo->data, philo->data->time_to_die);
 	}
 	return (NULL);
 }
@@ -52,7 +51,7 @@ void	*monitor(void *ph_ptr)
 	t_philo	*philo;
 		
 	philo = (t_philo *)ph_ptr;
-	while(!end_dinner(philo->data, philo, MEAL_END))
+	while(!end_dinner(philo->data, NULL, MEAL_END))
 	{
 		if (!get_bool(philo->data, &philo->ph_mtx, &philo->ph_full))
 		{
@@ -75,6 +74,7 @@ void	*monitor(void *ph_ptr)
 void	*dinner_routine(void *ph_ptr)
 {
 	t_philo *philo;
+
 	
 	philo = (t_philo *)ph_ptr;
 	wait_threads(philo->data);
@@ -98,7 +98,7 @@ void	start_dinner(t_data *data)
 	if (data->nb_ph == 1)
 	{	
 		handle_thread(data, &data->data_thread, &mr_lonely, &data->ph[0], CREATE);
-		handle_thread(data, &data->data_thread, NULL, NULL, JOIN);
+//		handle_thread(data, &data->data_thread, NULL, NULL, JOIN);
 	}
 	else
 	{
