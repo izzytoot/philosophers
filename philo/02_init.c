@@ -75,4 +75,3 @@ void	program_init(t_data *data)
 	data->ph_check = true;
 }
 
-

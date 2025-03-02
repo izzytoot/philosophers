@@ -167,9 +167,9 @@ void		*mr_lonely(void *ph_ptr);
 
 // 04_routine_actions.c
 void  	 	wait_threads(t_data *data);
-int			pre_dinner_check(t_philo *philo);
 void		ph_eating(t_philo *philo);
 void		handle_forks(t_philo *philo, t_fork_action action);
+void		ph_thinking(t_philo *philo, bool check);
 
 // 05_time_functions.c
 long		get_time(t_data *data, t_time	time_unit);
@@ -183,6 +183,7 @@ void		handle_thread(t_data *data, pthread_t *thread, void *(*function)(void *), 
 void		set_bool_var(t_data *data, t_mtx *mtx, bool *boolean, bool value);
 bool		get_bool(t_data *data, t_mtx *mtx, bool *boolean);
 void		print_ph_status(t_philo *philo, t_ph_status status);
+void		hold_your_horses(t_philo *philo); //enquadrar
 
 // 07_closing_dinner.c
 bool		end_dinner(t_data *data, t_philo *philo, t_end code);

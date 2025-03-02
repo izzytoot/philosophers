@@ -64,3 +64,17 @@ void	my_usleep(t_data *data, long sleep_time)
 			while(get_time(data, MICROSECONDS) - start < sleep_time);
 	}
 }
+
+void	hold_your_horses(t_philo *philo)
+{
+	if (philo->data->nb_ph % 2 == 0)
+	{
+		if (philo->ph_id % 2 == 0)
+			my_usleep(philo->data, 30000);
+	}
+	else
+	{
+		if (philo->ph_id % 2)
+			ph_thinking(philo, true);
+	}
+}

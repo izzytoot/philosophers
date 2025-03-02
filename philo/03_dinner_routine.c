@@ -57,12 +57,14 @@ void	*monitor(void *ph_ptr)
 		{
 			if (check_time_left(philo))
 			{
+				printf(GR"end due to philo %d dying at %lu\n"RES, philo->ph_id, (get_time(philo->data, MILLISECONDS)) - philo->data->start_meal_time);
 				set_bool_var(philo->data, &philo->data->data_mtx, &philo->data->end_dinner, true);
 				break;
 			}	
 		}
 		if (philo->data->nb_ph_full >= philo->data->nb_ph)
 		{
+			printf(GR"end due to philos full at %d meals\n"RES, philo->meal_count);
 			set_bool_var(philo->data, &philo->data->data_mtx, &philo->data->all_ph_full, true);
 			set_bool_var(philo->data, &philo->data->data_mtx, &philo->data->end_dinner, true);
 		}
@@ -79,12 +81,13 @@ void	*dinner_routine(void *ph_ptr)
 	philo = (t_philo *)ph_ptr;
 	wait_threads(philo->data);
 	set_time_var(philo->data, &philo->ph_mtx, &philo->last_meal, get_time(philo->data, MILLISECONDS));
+	hold_your_horses(philo);
 	while(!end_dinner(philo->data, NULL, MEAL_END) && !end_dinner(philo->data, philo, PH_FULL))
 	{
 		ph_eating(philo);
-		if (!end_dinner(philo->data, philo, PH_FULL))
-			print_ph_status(philo, THINKING);
-		my_usleep(philo->data, 10);
+		print_ph_status(philo, SLEEPING);
+		my_usleep(philo->data, philo->data->time_to_sleep);
+		ph_thinking(philo, false);
 	}
 	return (NULL);
 }
