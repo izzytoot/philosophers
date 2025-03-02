@@ -22,23 +22,22 @@ void	handle_forks(t_philo *philo, t_fork_action action)
 {
 	if (action == TAKE)
 	{
-		/*
-		if (philo->ph_id % 2 != 0)
+		if (philo->ph_id % 2 == 0)
 		{
-			my_usleep(philo->data, 5000);
 			handle_mutex(philo->data, philo->r_fork_mtx, LOCK);
 			print_ph_status(philo, TOOK_FORK);
+			my_usleep(philo->data, 1000);
 			handle_mutex(philo->data, philo->l_fork_mtx, LOCK);
 			print_ph_status(philo, TOOK_FORK);		
 		}
 		else
 		{
-		*/
 			handle_mutex(philo->data, philo->l_fork_mtx, LOCK);
 			print_ph_status(philo, TOOK_FORK);
+			my_usleep(philo->data, 1000);
 			handle_mutex(philo->data, philo->r_fork_mtx, LOCK);
 			print_ph_status(philo, TOOK_FORK);		
-		//}
+		}
 	}
 	else if (action == DROP)
 	{
@@ -50,6 +49,7 @@ void	handle_forks(t_philo *philo, t_fork_action action)
 void	ph_eating(t_philo *philo)
 {
 	handle_forks(philo, TAKE);
+	my_usleep(philo->data, 5 + (philo->ph_id % 10)); // waits for 5-14 ms before eating, reduces contention on the forks and ensures fairer scheduling
 	handle_mutex(philo->data, &philo->ph_mtx, LOCK);
 	philo->ph_eating = true; //check if needed
 	philo->meal_count++;
@@ -74,9 +74,9 @@ void	ph_thinking(t_philo *philo, bool check)
 		print_ph_status(philo, THINKING);
 	if (philo->data->nb_ph % 2 == 0)
 		return ;
-	time_to_think = (get_time_var(philo->data, &philo->ph_mtx, &philo->data->time_to_eat) * 2) - get_time_var(philo->data, &philo->ph_mtx, &philo->data->time_to_sleep);
+	time_to_think = (philo->data->time_to_eat) - philo->data->time_to_sleep;
 	if (time_to_think < 0)
 		time_to_think = 0;
-	my_usleep(philo->data, time_to_think * 0.46);
+	my_usleep(philo->data, time_to_think * 0.4);
 	return ;
 }

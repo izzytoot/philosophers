@@ -115,7 +115,7 @@ void	print_ph_status(t_philo *philo, t_ph_status status)
 		if (status == TOOK_FORK)
 			printf("%-6ld %d has taken a fork\n", time_passed, philo->ph_id);
 		else if (status == EATING)
-			printf("%-6ld %d is eating\n", time_passed, philo->ph_id);
+			printf(GR"%-6ld %d is eating\n"RES, time_passed, philo->ph_id);
 		else if (status == SLEEPING)
 			printf("%-6ld %d is sleeping\n", time_passed, philo->ph_id);
 		else if (status == THINKING)
