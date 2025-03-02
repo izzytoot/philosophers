@@ -30,14 +30,14 @@ bool	check_time_left(t_philo *philo)
 {
 	long	time_passed;
 	long	time_to_die;
-	bool 	is_eating;
 
 	handle_mutex(philo->data, &philo->ph_mtx, LOCK);
+	if (philo->ph_eating)  // ver se é preciso check ph_eating
+		return (false);
 	time_passed = get_time(philo->data, MILLISECONDS) - philo->last_meal;
 	time_to_die = philo->data->time_to_die / 1000;
-	is_eating = philo->ph_eating;
 	handle_mutex(philo->data, &philo->ph_mtx, UNLOCK);
-	if (time_passed >= time_to_die && !is_eating) // ver se é preciso check ph_eating
+	if (time_passed >= time_to_die)
 	{
 		print_ph_status(philo, DIED);
 		set_bool_var(philo->data, &philo->ph_mtx, &philo->ph_dead, true);
@@ -57,7 +57,6 @@ void	*monitor(void *ph_ptr)
 		{
 			if (check_time_left(philo))
 			{
-				printf(GR"end due to philo %d dying at %lu\n"RES, philo->ph_id, (get_time(philo->data, MILLISECONDS)) - philo->data->start_meal_time);
 				set_bool_var(philo->data, &philo->data->data_mtx, &philo->data->end_dinner, true);
 				break;
 			}	
@@ -68,7 +67,7 @@ void	*monitor(void *ph_ptr)
 			set_bool_var(philo->data, &philo->data->data_mtx, &philo->data->all_ph_full, true);
 			set_bool_var(philo->data, &philo->data->data_mtx, &philo->data->end_dinner, true);
 		}
-		my_usleep(philo->data, 100);
+	//	my_usleep(philo->data, 100);
 	}
 	return (NULL);
 }

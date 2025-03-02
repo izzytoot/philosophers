@@ -26,7 +26,7 @@ void	handle_forks(t_philo *philo, t_fork_action action)
 		{
 			handle_mutex(philo->data, philo->r_fork_mtx, LOCK);
 			print_ph_status(philo, TOOK_FORK);
-			my_usleep(philo->data, 1000);
+		//	my_usleep(philo->data, 1000);
 			handle_mutex(philo->data, philo->l_fork_mtx, LOCK);
 			print_ph_status(philo, TOOK_FORK);		
 		}
@@ -34,7 +34,7 @@ void	handle_forks(t_philo *philo, t_fork_action action)
 		{
 			handle_mutex(philo->data, philo->l_fork_mtx, LOCK);
 			print_ph_status(philo, TOOK_FORK);
-			my_usleep(philo->data, 1000);
+		//	my_usleep(philo->data, 1000);
 			handle_mutex(philo->data, philo->r_fork_mtx, LOCK);
 			print_ph_status(philo, TOOK_FORK);		
 		}
