@@ -29,7 +29,7 @@ void	*mr_lonely(void *ph_ptr)
 	}
 	return (NULL);
 }
-
+/*
 bool check_time_left(t_philo *philo)
 {
 long time_passed;
@@ -45,6 +45,33 @@ philo->ph_dead = true;
 return (true);
 }
 return(false);
+}
+*/
+
+
+bool	check_time_left(t_philo *philo)
+{
+	long	time_passed;
+	long	time_to_die;
+	long	last_meal;
+	bool	eating;
+
+	handle_mutex(philo->data, &philo->ph_mtx, LOCK);
+	eating = philo->ph_eating;
+	last_meal = philo->last_meal;
+	handle_mutex(philo->data, &philo->ph_mtx, UNLOCK);
+
+	if (eating)
+		return (false);
+	
+	time_passed = get_time(philo->data, MILLISECONDS) - last_meal;
+	time_to_die = philo->data->time_to_die / 1000;
+	if (time_passed >= time_to_die)
+	{
+		print_ph_status(philo, DIED);
+		return (true);
+	}
+	return(false);
 }
 
 bool	check_threads(t_data *data, t_mtx *mtx, long *nb_th, long nb_ph)
@@ -99,6 +126,8 @@ void	*dinner_routine(void *ph_ptr)
 	while(!end_dinner(philo->data, NULL, MEAL_END) && !end_dinner(philo->data, philo, PH_FULL))
 	{
 		ph_eating(philo);
+		if (philo->ph_full)
+			break;
 		print_ph_status(philo, SLEEPING);
 		my_usleep(philo->data, philo->data->time_to_sleep);
 		ph_thinking(philo, false);
