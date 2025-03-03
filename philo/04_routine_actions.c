@@ -48,19 +48,21 @@ void	ph_eating(t_philo *philo)
 {
 	handle_forks(philo, TAKE);
 	my_usleep(philo->data, 5 + (philo->ph_id % 10)); // waits for 5-14 ms before eating, reduces contention on the forks and ensures fairer scheduling
-//	handle_mutex(philo->data, &philo->ph_mtx, LOCK);
-	philo->ph_eating = true; 
+	//handle_mutex(philo->data, &philo->ph_mtx, LOCK);
+	set_time_var(philo->data, &philo->ph_mtx, &philo->last_meal, get_time(philo->data, MILLISECONDS));
+	set_bool_var(philo->data, &philo->ph_mtx, &philo->ph_eating, true);
 	philo->meal_count++;
 	print_ph_status(philo, EATING);
-	philo->last_meal = get_time(philo->data, MILLISECONDS);
 	my_usleep(philo->data, philo->data->time_to_eat); 
 	if ((philo->data->max_meals > 0) && philo->meal_count >= philo->data->max_meals)
 	{
-		philo->ph_full = true;
+		set_bool_var(philo->data, &philo->ph_mtx, &philo->ph_full, true);
+		handle_mutex(philo->data, &philo->data->data_mtx, LOCK);
 		philo->data->nb_ph_full++;
+		handle_mutex(philo->data, &philo->data->data_mtx, UNLOCK);
 	}
-	philo->ph_eating = false;
-//	handle_mutex(philo->data, &philo->ph_mtx, UNLOCK);
+	set_bool_var(philo->data, &philo->ph_mtx, &philo->ph_eating, false);
+	//handle_mutex(philo->data, &philo->ph_mtx, UNLOCK);
 	handle_forks(philo, DROP);
 }
 

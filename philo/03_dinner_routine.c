@@ -90,6 +90,7 @@ void	*monitor(void *data_ptr)
 {
 	t_data	*data;
 	int	i;
+	long nb_ph_full;
 	data = (t_data *)data_ptr;
 	while (!check_threads(data, &data->data_mtx, &data->th_running, data->nb_ph))
 		;
@@ -101,7 +102,10 @@ void	*monitor(void *data_ptr)
 			if (check_time_left(data->ph + i))
 				set_bool_var(data, &data->data_mtx, &data->end_dinner, true);
 		}
-		usleep(500); 
+		usleep(500);
+		handle_mutex(data, &data->data_mtx, LOCK);
+		nb_ph_full = data->nb_ph_full;
+		handle_mutex(data, &data->data_mtx, UNLOCK);
 		if (data->nb_ph_full >= data->nb_ph)
 		{
 			set_bool_var(data, &data->data_mtx, &data->all_ph_full, true);

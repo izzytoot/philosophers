@@ -25,9 +25,9 @@ void	free_and_clean(t_data *data)
 {
 	int	i;
 
-	i = -1;
 	if (data->ph_check)
 	{
+		i = -1;
 		while(++i < data->nb_ph)
 		{
 			handle_mutex(data, &data->ph[i].ph_mtx, DESTROY);

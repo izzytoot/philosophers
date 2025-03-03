@@ -22,7 +22,7 @@ OBJS = $(SRCS:.c=.o)
 #==============================================================================#
 C_COMP = cc
 FLAGS = -Wall -Werror -Wextra
-FLAGS += -g
+FLAGS += -g -fsanitize=thread
 RM = rm -f
 AR = ar rcs
 MAKE = make
