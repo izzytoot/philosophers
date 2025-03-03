@@ -18,6 +18,9 @@ void	*mr_lonely(void *ph_ptr)
 
 	philo = (t_philo *)ph_ptr;
 	set_time_var(philo->data, &philo->ph_mtx, &philo->last_meal, get_time(philo->data, MILLISECONDS));
+	handle_mutex(philo->data, &philo->data->data_mtx, LOCK);
+	philo->data->th_running++;
+	handle_mutex(philo->data, &philo->data->data_mtx, UNLOCK);
 	print_ph_status(philo, TOOK_FORK);
 	while(!end_dinner(philo->data, NULL, MEAL_END))
 	{
@@ -32,8 +35,8 @@ bool	check_time_left(t_philo *philo)
 	long	time_to_die;
 
 	handle_mutex(philo->data, &philo->ph_mtx, LOCK);
-	if (philo->ph_eating)  // ver se é preciso check ph_eating
-		return (false);
+	//if (philo->ph_eating)  // ver se é preciso check ph_eating
+	//	return (false);
 	time_passed = get_time(philo->data, MILLISECONDS) - philo->last_meal;
 	time_to_die = philo->data->time_to_die / 1000;
 	handle_mutex(philo->data, &philo->ph_mtx, UNLOCK);
@@ -46,11 +49,25 @@ bool	check_time_left(t_philo *philo)
 	return(false);
 }
 
+bool	check_threads(t_data *data, t_mtx *mtx, long *nb_th, long nb_ph)
+{
+	bool	ret;
+
+	ret = false;
+	handle_mutex(data, mtx, LOCK);
+	if (*nb_th == nb_ph)
+		ret = true;
+	handle_mutex(data, mtx, UNLOCK);
+	return (ret);
+}
+
 void	*monitor(void *ph_ptr)
 {
 	t_philo	*philo;
 		
 	philo = (t_philo *)ph_ptr;
+	while (!check_threads(philo->data, &philo->data->data_mtx, &philo->data->th_running, philo->data->nb_ph))
+		;
 	while(!end_dinner(philo->data, NULL, MEAL_END))
 	{
 		if (!get_bool(philo->data, &philo->ph_mtx, &philo->ph_full))
@@ -80,6 +97,9 @@ void	*dinner_routine(void *ph_ptr)
 	philo = (t_philo *)ph_ptr;
 	wait_threads(philo->data);
 	set_time_var(philo->data, &philo->ph_mtx, &philo->last_meal, get_time(philo->data, MILLISECONDS));
+	handle_mutex(philo->data, &philo->data->data_mtx, LOCK);
+	philo->data->th_running++;
+	handle_mutex(philo->data, &philo->data->data_mtx, UNLOCK);
 	hold_your_horses(philo);
 	while(!end_dinner(philo->data, NULL, MEAL_END) && !end_dinner(philo->data, philo, PH_FULL))
 	{

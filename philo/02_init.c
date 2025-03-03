@@ -64,6 +64,7 @@ void	program_init(t_data *data)
 	data->all_ph_full = false;
 	data->threads_ready = false;
 	data->start_meal_time = 0;
+	data->th_running = 0;
 	alloc_memory_data(data);
 	handle_mutex(data, &data->write_mtx, INIT);
 	data->write_mtx_check = true; 

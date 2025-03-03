@@ -128,6 +128,7 @@ typedef struct s_data
 	long			time_to_eat;
 	long			time_to_sleep;
 	long			start_meal_time;
+	long			th_running;
 	t_mtx			*forks;
 	t_mtx			write_mtx;
 	t_mtx			data_mtx;
@@ -184,6 +185,7 @@ void		set_bool_var(t_data *data, t_mtx *mtx, bool *boolean, bool value);
 bool		get_bool(t_data *data, t_mtx *mtx, bool *boolean);
 void		print_ph_status(t_philo *philo, t_ph_status status);
 void		hold_your_horses(t_philo *philo); //enquadrar
+bool	check_threads(t_data *data, t_mtx *mtx, long *nb_th, long nb_ph); //enquadrar
 
 // 07_closing_dinner.c
 bool		end_dinner(t_data *data, t_philo *philo, t_end code);
