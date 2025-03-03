@@ -47,8 +47,6 @@ void	handle_forks(t_philo *philo, t_fork_action action)
 void	ph_eating(t_philo *philo)
 {
 	handle_forks(philo, TAKE);
-	my_usleep(philo->data, 5 + (philo->ph_id % 10)); // waits for 5-14 ms before eating, reduces contention on the forks and ensures fairer scheduling
-	//handle_mutex(philo->data, &philo->ph_mtx, LOCK);
 	set_time_var(philo->data, &philo->ph_mtx, &philo->last_meal, get_time(philo->data, MILLISECONDS));
 	set_bool_var(philo->data, &philo->ph_mtx, &philo->ph_eating, true);
 	philo->meal_count++;
@@ -62,7 +60,6 @@ void	ph_eating(t_philo *philo)
 		handle_mutex(philo->data, &philo->data->data_mtx, UNLOCK);
 	}
 	set_bool_var(philo->data, &philo->ph_mtx, &philo->ph_eating, false);
-	//handle_mutex(philo->data, &philo->ph_mtx, UNLOCK);
 	handle_forks(philo, DROP);
 }
 

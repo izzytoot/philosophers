@@ -95,7 +95,7 @@ void	print_ph_status(t_philo *philo, t_ph_status status)
 		else if (status == THINKING)
 			printf("%-6ld %d is thinking\n", time_passed, philo->ph_id);
 		else if (status == DIED)
-			printf("%-6ld %d died\n", time_passed, philo->ph_id);
+			printf(RED"%-6ld %d died\n"RES, time_passed, philo->ph_id);
 		handle_mutex(philo->data, &philo->data->write_mtx, UNLOCK);
 	}
 }

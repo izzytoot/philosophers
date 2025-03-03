@@ -135,7 +135,6 @@ void	*dinner_routine(void *ph_ptr)
 		print_ph_status(philo, SLEEPING);
 		my_usleep(philo->data, philo->data->time_to_sleep);
 		ph_thinking(philo, false);
-		my_usleep(philo->data, 10);
 	}
 	return (NULL);
 }
