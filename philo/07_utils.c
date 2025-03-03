@@ -12,51 +12,16 @@
 
 #include "philo.h"
 
-void	handle_mutex(t_data *data, t_mtx *mtx, t_code code)
+bool	check_th(t_data *data, t_mtx *mtx, long *nb_th, long nb_ph)
 {
-	if (code == INIT)
-	{
-		if (pthread_mutex_init(mtx, NULL) != 0)
-			error_and_exit(data, RED ERR_MTX_INIT RES, 2);
-	}
-	else if (code == LOCK)
-	{	
-		if (pthread_mutex_lock(mtx) != 0)
-			error_and_exit(data, RED ERR_MTX_LOCK RES, 2);
-	}
-	else if (code == UNLOCK)
-	{
-		if (pthread_mutex_unlock(mtx) != 0)
-			error_and_exit(data, RED ERR_MTX_UNLOCK RES, 2);
-	}
-	else if (code == DESTROY)
-	{
-		if (pthread_mutex_destroy(mtx) != 0)
-			error_and_exit(data, RED ERR_MTX_DESTR RES, 2);
-	}
-	else
-		error_and_exit(data, RED ERR_MTX_CODE RES, 2);
-}
+	bool	ret;
 
-void	handle_thread(t_data *data, pthread_t *thread, void *(*function)(void *), void *t_data, t_code code)
-{
-	if (code == CREATE)
-	{	
-		if (pthread_create(thread, NULL, function, t_data) != 0)
-			error_and_exit(data, RED ERR_TH_CR RES, 2);
-	}
-	else if (code == JOIN)
-	{	
-		if (pthread_join(*thread, NULL) != 0)
-			error_and_exit(data, RED ERR_TH_J RES, 2);
-	}
-	else if (code == DETACH)
-	{
-		if (pthread_detach(*thread) != 0)
-			error_and_exit(data, RED ERR_TH_DET RES, 2);
-	}	
-	else
-		error_and_exit(data, RED ERR_TH_CODE RES, 2);
+	ret = false;
+	handle_mutex(data, mtx, LOCK);
+	if (*nb_th == nb_ph)
+		ret = true;
+	handle_mutex(data, mtx, UNLOCK);
+	return (ret);
 }
 
 void	set_bool_var(t_data *data, t_mtx *mtx, bool *boolean, bool value)
@@ -69,9 +34,19 @@ void	set_bool_var(t_data *data, t_mtx *mtx, bool *boolean, bool value)
 bool	get_bool(t_data *data, t_mtx *mtx, bool *boolean)
 {
 	bool	result;
-	
+
 	handle_mutex(data, mtx, LOCK);
 	result = *boolean;
+	handle_mutex(data, mtx, UNLOCK);
+	return (result);
+}
+
+long	get_long(t_data *data, t_mtx *mtx, long *long_var)
+{
+	long	result;
+
+	handle_mutex(data, mtx, LOCK);
+	result = *long_var;
 	handle_mutex(data, mtx, UNLOCK);
 	return (result);
 }
@@ -80,9 +55,9 @@ void	print_ph_status(t_philo *philo, t_ph_status status)
 {
 	long	current_time;
 	long	time_passed;
- 	
+
 	current_time = get_time(philo->data, MILLISECONDS);
-	time_passed =  current_time - philo->data->start_meal_time;
+	time_passed = current_time - philo->data->start_meal_time;
 	if (!end_dinner(philo->data, NULL, MEAL_END))
 	{
 		handle_mutex(philo->data, &philo->data->write_mtx, LOCK);
@@ -99,4 +74,3 @@ void	print_ph_status(t_philo *philo, t_ph_status status)
 		handle_mutex(philo->data, &philo->data->write_mtx, UNLOCK);
 	}
 }
-

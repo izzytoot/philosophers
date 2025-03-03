@@ -15,9 +15,9 @@
 bool	end_dinner(t_data *data, t_philo *philo, t_end code)
 {
 	if (code == PH_FULL)
-		return(get_bool(data, &philo->ph_mtx, &philo->ph_full));
+		return (get_bool(data, &philo->ph_mtx, &philo->ph_full));
 	else if (code == MEAL_END)
-		return(get_bool(data, &data->data_mtx, &data->end_dinner));
+		return (get_bool(data, &data->data_mtx, &data->end_dinner));
 	return (false);
 }
 
@@ -28,7 +28,7 @@ void	free_and_clean(t_data *data)
 	if (data->ph_check)
 	{
 		i = -1;
-		while(++i < data->nb_ph)
+		while (++i < data->nb_ph)
 		{
 			handle_mutex(data, &data->ph[i].ph_mtx, DESTROY);
 			handle_mutex(data, &data->forks[i], DESTROY);
@@ -57,11 +57,11 @@ void	error_and_exit(t_data *data, char *message, int fd)
 		free_and_clean(data);
 	if (message)
 	{
-		while(message[i])
+		while (message[i])
 		{
 			write(fd, &message[i], 1);
 			i++;
-		}	
+		}
 	}
 	exit(EXIT_FAILURE);
 }

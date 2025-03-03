@@ -15,14 +15,14 @@
 #==============================================================================#
 NAME = philo
 HEADER_PATH = philo.h
-SRCS = 00_main.c 01_parsing.c 02_init.c 03_dinner_routine.c 04_routine_actions.c 05_time_functions.c 06_utils.c 07_closing_dinner.c
+SRCS = 00_main.c 01_parsing.c 02_init.c 03_dinner_routine.c 04_routine_actions.c 05_time_functions.c 06_handle_mtx_and_th.c 07_utils.c 08_closing_dinner.c
 OBJS = $(SRCS:.c=.o)
 #==============================================================================#
 #                            FLAGS & COMMANDS                                  #
 #==============================================================================#
 C_COMP = cc
 FLAGS = -Wall -Werror -Wextra
-FLAGS += -g -fsanitize=thread
+FLAGS += -g
 RM = rm -f
 AR = ar rcs
 MAKE = make

@@ -15,7 +15,7 @@
 long	conv_and_check(t_data *data, char *av)
 {
 	long	result;
-	int	i;
+	int		i;
 
 	result = 0;
 	i = 0;
@@ -30,7 +30,7 @@ long	conv_and_check(t_data *data, char *av)
 	}
 	if (result < 1 || result > INT_MAX)
 		error_and_exit(data, RED ERR_INP2 RES, 2);
-	return(result);
+	return (result);
 }
 
 void	basic_checker(char *av)
@@ -38,7 +38,7 @@ void	basic_checker(char *av)
 	int	i;
 
 	i = 0;
-	while(av[i])
+	while (av[i])
 	{
 		if (av[i] == ' ')
 			i++;
@@ -47,6 +47,7 @@ void	basic_checker(char *av)
 		i++;
 	}
 }
+
 void	init_input_data(t_data *data, char **av)
 {
 	int	i;
@@ -57,7 +58,8 @@ void	init_input_data(t_data *data, char **av)
 	data->time_to_die = conv_and_check(data, av[2]) * 1000;
 	data->time_to_eat = conv_and_check(data, av[3]) * 1000;
 	data->time_to_sleep = conv_and_check(data, av[4]) * 1000;
-	if (data->time_to_die < 60000 || data->time_to_eat < 60000 || data->time_to_sleep < 60000)
+	if (data->time_to_die < 60000 || data->time_to_eat < 60000
+		|| data->time_to_sleep < 60000)
 		error_and_exit(data, RED ERR_TIME_LIMIT RES, 2);
 	if (av[5])
 	{
@@ -84,7 +86,7 @@ void	input_parsing_and_sort(t_data *data, char **av)
 	data->forks_check = false;
 	data->write_mtx_check = false;
 	data->data_mtx_check = false;
-	while(av[++i])
+	while (av[++i])
 		basic_checker(av[i]);
 	init_input_data(data, av);
 }

@@ -12,9 +12,9 @@
 
 #include "philo.h"
 
-void    wait_threads(t_data *data)
+void	wait_threads(t_data *data)
 {
-    while(!get_bool(data, &data->data_mtx, &data->threads_ready))
+	while (!get_bool(data, &data->data_mtx, &data->threads_ready))
 		;
 }
 
@@ -27,14 +27,14 @@ void	handle_forks(t_philo *philo, t_fork_action action)
 			handle_mutex(philo->data, philo->r_fork_mtx, LOCK);
 			print_ph_status(philo, TOOK_FORK);
 			handle_mutex(philo->data, philo->l_fork_mtx, LOCK);
-			print_ph_status(philo, TOOK_FORK);		
+			print_ph_status(philo, TOOK_FORK);
 		}
 		else
 		{
 			handle_mutex(philo->data, philo->l_fork_mtx, LOCK);
 			print_ph_status(philo, TOOK_FORK);
 			handle_mutex(philo->data, philo->r_fork_mtx, LOCK);
-			print_ph_status(philo, TOOK_FORK);		
+			print_ph_status(philo, TOOK_FORK);
 		}
 	}
 	else if (action == DROP)
@@ -46,13 +46,17 @@ void	handle_forks(t_philo *philo, t_fork_action action)
 
 void	ph_eating(t_philo *philo)
 {
+	long	current_time;
+
 	handle_forks(philo, TAKE);
-	set_time_var(philo->data, &philo->ph_mtx, &philo->last_meal, get_time(philo->data, MILLISECONDS));
+	current_time = get_time(philo->data, MILLISECONDS);
+	set_time_var(philo->data, &philo->ph_mtx, &philo->last_meal, current_time);
 	set_bool_var(philo->data, &philo->ph_mtx, &philo->ph_eating, true);
 	philo->meal_count++;
 	print_ph_status(philo, EATING);
-	my_usleep(philo->data, philo->data->time_to_eat); 
-	if ((philo->data->max_meals > 0) && philo->meal_count >= philo->data->max_meals)
+	my_usleep(philo->data, philo->data->time_to_eat);
+	if ((philo->data->max_meals > 0)
+		&& philo->meal_count >= philo->data->max_meals)
 	{
 		set_bool_var(philo->data, &philo->ph_mtx, &philo->ph_full, true);
 		handle_mutex(philo->data, &philo->data->data_mtx, LOCK);
@@ -65,7 +69,7 @@ void	ph_eating(t_philo *philo)
 
 void	ph_thinking(t_philo *philo, bool check)
 {
-	long time_to_think;
+	long	time_to_think;
 
 	if (!check)
 		print_ph_status(philo, THINKING);
