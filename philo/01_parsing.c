@@ -49,6 +49,8 @@ void	basic_checker(char *av)
 }
 void	init_input_data(t_data *data, char **av)
 {
+	int	i;
+
 	data->nb_ph = conv_and_check(data, av[1]);
 	if (data->nb_ph > 200)
 		error_and_exit(data, RED ERR_NB_PHILOS RES, 2);
@@ -59,14 +61,16 @@ void	init_input_data(t_data *data, char **av)
 		error_and_exit(data, RED ERR_TIME_LIMIT RES, 2);
 	if (av[5])
 	{
+		i = -1;
+		while (av[5][++i])
+		{
+			if (av[5][i] == '0')
+				error_and_exit(data, RED ERR_MEAL_MIN RES, 2);
+		}
 		data->max_meals = conv_and_check(data, av[5]);
-		data->av5 = true;	
 	}
 	else
-	{
 		data->max_meals = -1;
-		data->av5 = false;
-	}
 }
 
 void	input_parsing_and_sort(t_data *data, char **av)

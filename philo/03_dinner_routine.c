@@ -17,6 +17,7 @@ void	*mr_lonely(void *ph_ptr)
 	t_philo	*philo;
 
 	philo = (t_philo *)ph_ptr;
+	wait_threads(philo->data);
 	set_time_var(philo->data, &philo->ph_mtx, &philo->last_meal, get_time(philo->data, MILLISECONDS));
 	handle_mutex(philo->data, &philo->data->data_mtx, LOCK);
 	philo->data->th_running++;
@@ -29,25 +30,21 @@ void	*mr_lonely(void *ph_ptr)
 	return (NULL);
 }
 
-bool	check_time_left(t_philo *philo)
+bool check_time_left(t_philo *philo)
 {
-	long	time_passed;
-	long	time_to_die;
-	//if (get_bool(philo->data, &philo->ph_mtx, &philo->ph_full))
-	//	return (false);
-	//handle_mutex(philo->data, &philo->ph_mtx, LOCK);
-	if (philo->ph_eating)
-		return (false);
-	time_passed = get_time(philo->data, MILLISECONDS) - philo->last_meal;
-	time_to_die = philo->data->time_to_die / 1000;
-	//handle_mutex(philo->data, &philo->ph_mtx, UNLOCK);
-	if (time_passed >= time_to_die)
-	{
-		print_ph_status(philo, DIED);
-		philo->ph_dead = true;
-		return (true);
-	}
-	return(false);
+long time_passed;
+long time_to_die;
+if (philo->ph_eating)
+return (false);
+time_passed = get_time(philo->data, MILLISECONDS) - philo->last_meal;
+time_to_die = philo->data->time_to_die / 1000;
+if (time_passed >= time_to_die)
+{
+print_ph_status(philo, DIED);
+philo->ph_dead = true;
+return (true);
+}
+return(false);
 }
 
 bool	check_threads(t_data *data, t_mtx *mtx, long *nb_th, long nb_ph)
@@ -75,17 +72,14 @@ void	*monitor(void *data_ptr)
 		while(++i < data->nb_ph && !end_dinner(data, NULL, MEAL_END))
 		{
 			if (check_time_left(data->ph + i))
-			{
-				//print_ph_status(data->ph, DIED);
 				set_bool_var(data, &data->data_mtx, &data->end_dinner, true);
-			}
 		}
+		usleep(500); 
 		if (data->nb_ph_full >= data->nb_ph)
 		{
 			set_bool_var(data, &data->data_mtx, &data->all_ph_full, true);
 			set_bool_var(data, &data->data_mtx, &data->end_dinner, true);
 		}
-	//	my_usleep(philo->data, 100);
 	}
 	return (NULL);
 }
@@ -118,21 +112,18 @@ void	start_dinner(t_data *data)
 	int	i;
 	
 	set_time_var(data, &data->data_mtx, &data->start_meal_time, get_time(data, MILLISECONDS));
-	handle_thread(data, &data->mon_thread, &monitor, data, CREATE);
 	if (data->nb_ph == 1)
-	{	
-		handle_thread(data, &data->data_thread, &mr_lonely, &data->ph[0], CREATE);
-//		handle_thread(data, &data->data_thread, NULL, NULL, JOIN);
-	}
+		handle_thread(data, &data->ph[0].ph_thread, &mr_lonely, &data->ph[0], CREATE);
 	else
 	{
 		i = -1;	
 		while(++i < data->nb_ph)
 			handle_thread(data, &data->ph[i].ph_thread, &dinner_routine, &data->ph[i], CREATE);
 	}
+	handle_thread(data, &data->mon_thread, &monitor, data, CREATE);
 	set_bool_var(data, &data->data_mtx, &data->threads_ready, true);
 	i = -1;
-	while(++i < (data)->nb_ph)
+	while(++i < data->nb_ph)
 		handle_thread(data, &data->ph[i].ph_thread, NULL, NULL, JOIN);
 	handle_thread(data, &data->mon_thread, NULL, NULL, JOIN);
 }

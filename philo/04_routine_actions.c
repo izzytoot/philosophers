@@ -26,7 +26,6 @@ void	handle_forks(t_philo *philo, t_fork_action action)
 		{
 			handle_mutex(philo->data, philo->r_fork_mtx, LOCK);
 			print_ph_status(philo, TOOK_FORK);
-		//	my_usleep(philo->data, 1000);
 			handle_mutex(philo->data, philo->l_fork_mtx, LOCK);
 			print_ph_status(philo, TOOK_FORK);		
 		}
@@ -34,7 +33,6 @@ void	handle_forks(t_philo *philo, t_fork_action action)
 		{
 			handle_mutex(philo->data, philo->l_fork_mtx, LOCK);
 			print_ph_status(philo, TOOK_FORK);
-		//	my_usleep(philo->data, 1000);
 			handle_mutex(philo->data, philo->r_fork_mtx, LOCK);
 			print_ph_status(philo, TOOK_FORK);		
 		}
@@ -56,7 +54,7 @@ void	ph_eating(t_philo *philo)
 	print_ph_status(philo, EATING);
 	philo->last_meal = get_time(philo->data, MILLISECONDS);
 	my_usleep(philo->data, philo->data->time_to_eat); 
-	if (philo->data->av5 && philo->meal_count >= philo->data->max_meals)
+	if ((philo->data->max_meals > 0) && philo->meal_count >= philo->data->max_meals)
 	{
 		philo->ph_full = true;
 		philo->data->nb_ph_full++;

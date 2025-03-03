@@ -41,6 +41,7 @@
 # define	ERR_INP2 "Error! Inputs must be positive ints.\n"
 # define	ERR_NB_PHILOS "Error! Philos must be between 1 and 200.\n"
 # define	ERR_TIME_LIMIT "Error!Time values must be at least 60 seconds.\n"
+# define	ERR_MEAL_MIN "Error!Number of meals must be at least 1.\n"
 # define	ERR_MTX_INIT "Error with mutex_init.\n"
 # define	ERR_MTX_LOCK "Error with mutex_lock.\n"
 # define	ERR_MTX_UNLOCK "Error with mutex_unlock.\n"
@@ -135,7 +136,6 @@ typedef struct s_data
 	bool			end_dinner;
 	bool			threads_ready;
 	bool			all_ph_full;
-	bool			av5;
 	bool			write_mtx_check;
 	bool			data_mtx_check;
 	bool			forks_check;
@@ -177,6 +177,7 @@ long		get_time(t_data *data, t_time	time_unit);
 void		set_time_var(t_data *data, t_mtx *mtx, long *result, long time);
 long		get_time_var(t_data *data, t_mtx *mtx, long *time);
 void		my_usleep(t_data *data, long sleep_time);
+void		hold_your_horses(t_philo *philo);
 
 // 06_utils
 void		handle_mutex(t_data *data, t_mtx *mtx, t_code code);
@@ -184,8 +185,6 @@ void		handle_thread(t_data *data, pthread_t *thread, void *(*function)(void *), 
 void		set_bool_var(t_data *data, t_mtx *mtx, bool *boolean, bool value);
 bool		get_bool(t_data *data, t_mtx *mtx, bool *boolean);
 void		print_ph_status(t_philo *philo, t_ph_status status);
-void		hold_your_horses(t_philo *philo); //enquadrar
-bool		check_threads(t_data *data, t_mtx *mtx, long *nb_th, long nb_ph); //enquadrar
 
 // 07_closing_dinner.c
 bool		end_dinner(t_data *data, t_philo *philo, t_end code);
