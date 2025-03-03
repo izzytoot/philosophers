@@ -18,29 +18,17 @@ void	wait_threads(t_data *data)
 		;
 }
 
-void	handle_forks(t_philo *philo, t_fork_action action)
+void	hold_your_horses(t_philo *philo)
 {
-	if (action == TAKE)
+	if (philo->data->nb_ph % 2 == 0)
 	{
 		if (philo->ph_id % 2 == 0)
-		{
-			handle_mutex(philo->data, philo->r_fork_mtx, LOCK);
-			print_ph_status(philo, TOOK_FORK);
-			handle_mutex(philo->data, philo->l_fork_mtx, LOCK);
-			print_ph_status(philo, TOOK_FORK);
-		}
-		else
-		{
-			handle_mutex(philo->data, philo->l_fork_mtx, LOCK);
-			print_ph_status(philo, TOOK_FORK);
-			handle_mutex(philo->data, philo->r_fork_mtx, LOCK);
-			print_ph_status(philo, TOOK_FORK);
-		}
+			my_usleep(philo->data, 30000);
 	}
-	else if (action == DROP)
+	else
 	{
-		handle_mutex(philo->data, philo->l_fork_mtx, UNLOCK);
-		handle_mutex(philo->data, philo->r_fork_mtx, UNLOCK);
+		if (philo->ph_id % 2)
+			ph_thinking(philo, true);
 	}
 }
 
@@ -65,6 +53,32 @@ void	ph_eating(t_philo *philo)
 	}
 	set_bool_var(philo->data, &philo->ph_mtx, &philo->ph_eating, false);
 	handle_forks(philo, DROP);
+}
+
+void	handle_forks(t_philo *philo, t_fork_action action)
+{
+	if (action == TAKE)
+	{
+		if (philo->ph_id % 2 == 0)
+		{
+			handle_mutex(philo->data, philo->r_fork_mtx, LOCK);
+			print_ph_status(philo, TOOK_FORK);
+			handle_mutex(philo->data, philo->l_fork_mtx, LOCK);
+			print_ph_status(philo, TOOK_FORK);
+		}
+		else
+		{
+			handle_mutex(philo->data, philo->l_fork_mtx, LOCK);
+			print_ph_status(philo, TOOK_FORK);
+			handle_mutex(philo->data, philo->r_fork_mtx, LOCK);
+			print_ph_status(philo, TOOK_FORK);
+		}
+	}
+	else if (action == DROP)
+	{
+		handle_mutex(philo->data, philo->l_fork_mtx, UNLOCK);
+		handle_mutex(philo->data, philo->r_fork_mtx, UNLOCK);
+	}
 }
 
 void	ph_thinking(t_philo *philo, bool check)

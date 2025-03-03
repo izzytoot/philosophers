@@ -145,53 +145,55 @@ typedef struct s_data
 /* ************************************************************************** */
 
 //00_main.c
-int			main(int ac, char **av);
+int		main(int ac, char **av);
 
 //01_parsing.c
-void		input_parsing_and_sort(t_data *data, char **av);
-void		basic_checker(char *av);
-void		init_input_data(t_data *data, char **av);
-long		conv_and_check(t_data *data, char *av);
+void	input_parsing_and_sort(t_data *data, char **av);
+void	basic_checker(char *av);
+void	init_input_data(t_data *data, char **av);
+long	conv_and_check(t_data *data, char *av);
 
 //02_init.c
-void		program_init(t_data *data);
-void		alloc_memory_data(t_data *data);
-void		init_philos(t_data *data);
+void	program_init(t_data *data);
+void	alloc_memory_data(t_data *data);
+void	init_forks(t_data *data);
+void	init_philos(t_data *data);
 
 //03_routine_threads.c
-void		start_dinner(t_data *data);
-void		*monitor(void *data_ptr);
-void		*dinner_routine(void *ph_ptr);
-void		*mr_lonely(void *ph_ptr);
+void	start_dinner(t_data *data);
+void	*monitor(void *data_ptr);
+bool	check_time_left(t_philo *philo);
+void	*dinner_routine(void *ph_ptr);
+void	*mr_lonely(void *ph_ptr);
 
 // 04_routine_actions.c
-void		wait_threads(t_data *data);
-void		ph_eating(t_philo *philo);
-void		handle_forks(t_philo *philo, t_fork_action action);
-void		ph_thinking(t_philo *philo, bool check);
+void	wait_threads(t_data *data);
+void	hold_your_horses(t_philo *philo);
+void	ph_eating(t_philo *philo);
+void	handle_forks(t_philo *philo, t_fork_action action);
+void	ph_thinking(t_philo *philo, bool check);
 
 // 05_time_functions.c
-long		get_time(t_data *data, t_time	time_unit);
-void		set_time_var(t_data *data, t_mtx *mtx, long *result, long time);
-long		get_time_var(t_data *data, t_mtx *mtx, long *time);
-void		my_usleep(t_data *data, long sleep_time);
-void		hold_your_horses(t_philo *philo);
+void	my_usleep(t_data *data, long sleep_time);
+long	get_time(t_data *data, t_time	time_unit);
+void	set_time_var(t_data *data, t_mtx *mtx, long *result, long time);
+long	get_time_var(t_data *data, t_mtx *mtx, long *time);
 
 // 06_handle_mtx_and_th.c
-void		handle_mutex(t_data *data, t_mtx *mtx, t_code code);
-void		handle_thread(pthread_t *thread, void *(*function)(void *),
-				void *t_data, t_code code);
+void	handle_mutex(t_data *data, t_mtx *mtx, t_code code);
+void	handle_thread(pthread_t *thread, void *(*function)(void *),
+			void *t_data, t_code code);
 
 // 07_utils
-bool		check_th(t_data *data, t_mtx *mtx, long *nb_th, long nb_ph);
-void		set_bool_var(t_data *data, t_mtx *mtx, bool *boolean, bool value);
-bool		get_bool(t_data *data, t_mtx *mtx, bool *boolean);
-long		get_long(t_data *data, t_mtx *mtx, long *long_var);
-void		print_ph_status(t_philo *philo, t_ph_status status);
+bool	check_th(t_data *data, t_mtx *mtx, long *nb_th, long nb_ph);
+void	set_bool_var(t_data *data, t_mtx *mtx, bool *boolean, bool value);
+bool	get_bool(t_data *data, t_mtx *mtx, bool *boolean);
+long	get_long(t_data *data, t_mtx *mtx, long *long_var);
+void	print_ph_status(t_philo *philo, t_ph_status status);
 
 // 08_closing_dinner.c
-bool		end_dinner(t_data *data, t_philo *philo, t_end code);
-void		error_and_exit(t_data *data, char *message, int fd);
-void		free_and_clean(t_data *data);
+bool	end_dinner(t_data *data, t_philo *philo, t_end code);
+void	error_and_exit(t_data *data, char *message, int fd);
+void	free_and_clean(t_data *data);
 
 #endif

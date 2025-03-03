@@ -12,6 +12,39 @@
 
 #include "philo.h"
 
+void	program_init(t_data *data)
+{
+	data->start_meal_time = 0;
+	data->end_dinner = false;
+	data->nb_ph_full = 0;
+	data->all_ph_full = false;
+	data->threads_ready = false;
+	data->start_meal_time = 0;
+	data->th_running = 0;
+	alloc_memory_data(data);
+	handle_mutex(data, &data->write_mtx, INIT);
+	data->write_mtx_check = true;
+	handle_mutex(data, &data->data_mtx, INIT);
+	data->data_mtx_check = true;
+	init_forks(data);
+	data->forks_check = true;
+	init_philos(data);
+	data->ph_check = true;
+}
+
+void	alloc_memory_data(t_data *data)
+{
+	int	size;
+
+	size = (int)data->nb_ph;
+	data->ph = malloc(sizeof(t_philo) * size);
+	if (!data->ph)
+		error_and_exit(data, RED ERR_MEM RES, 2);
+	data->forks = malloc(sizeof(t_mtx) * size);
+	if (!data->forks)
+		error_and_exit(data, RED ERR_MEM RES, 2);
+}
+
 void	init_forks(t_data *data)
 {
 	int	i;
@@ -41,37 +74,4 @@ void	init_philos(t_data *data)
 		philo->r_fork_mtx = &data->forks[(i + 1) % data->nb_ph];
 		handle_mutex(data, &data->ph[i].ph_mtx, INIT);
 	}
-}
-
-void	alloc_memory_data(t_data *data)
-{
-	int	size;
-
-	size = (int)data->nb_ph;
-	data->ph = malloc(sizeof(t_philo) * size);
-	if (!data->ph)
-		error_and_exit(data, RED ERR_MEM RES, 2);
-	data->forks = malloc(sizeof(t_mtx) * size);
-	if (!data->forks)
-		error_and_exit(data, RED ERR_MEM RES, 2);
-}
-
-void	program_init(t_data *data)
-{
-	data->start_meal_time = 0;
-	data->end_dinner = false;
-	data->nb_ph_full = 0;
-	data->all_ph_full = false;
-	data->threads_ready = false;
-	data->start_meal_time = 0;
-	data->th_running = 0;
-	alloc_memory_data(data);
-	handle_mutex(data, &data->write_mtx, INIT);
-	data->write_mtx_check = true;
-	handle_mutex(data, &data->data_mtx, INIT);
-	data->data_mtx_check = true;
-	init_forks(data);
-	data->forks_check = true;
-	init_philos(data);
-	data->ph_check = true;
 }

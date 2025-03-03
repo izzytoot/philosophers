@@ -12,25 +12,20 @@
 
 #include "philo.h"
 
-long	conv_and_check(t_data *data, char *av)
+void	input_parsing_and_sort(t_data *data, char **av)
 {
-	long	result;
-	int		i;
+	int	i;
 
-	result = 0;
 	i = 0;
-	while ((av[i] >= 9 && av[i] <= 13) || av[i] == 32)
-		i++;
-	if (av[i] == '+' || av[i] == '-')
-		i++;
-	while ((av[i] >= '0') && (av[i] <= '9'))
-	{
-		result = result * 10 + (av[i] - '0');
-		i++;
-	}
-	if (result < 1 || result > INT_MAX)
-		error_and_exit(data, RED ERR_INP2 RES, 2);
-	return (result);
+	if (!data)
+		error_and_exit(data, RED ERR_MEM RES, 2);
+	data->ph_check = false;
+	data->forks_check = false;
+	data->write_mtx_check = false;
+	data->data_mtx_check = false;
+	while (av[++i])
+		basic_checker(av[i]);
+	init_input_data(data, av);
 }
 
 void	basic_checker(char *av)
@@ -75,18 +70,23 @@ void	init_input_data(t_data *data, char **av)
 		data->max_meals = -1;
 }
 
-void	input_parsing_and_sort(t_data *data, char **av)
+long	conv_and_check(t_data *data, char *av)
 {
-	int	i;
+	long	result;
+	int		i;
 
+	result = 0;
 	i = 0;
-	if (!data)
-		error_and_exit(data, RED ERR_MEM RES, 2);
-	data->ph_check = false;
-	data->forks_check = false;
-	data->write_mtx_check = false;
-	data->data_mtx_check = false;
-	while (av[++i])
-		basic_checker(av[i]);
-	init_input_data(data, av);
+	while ((av[i] >= 9 && av[i] <= 13) || av[i] == 32)
+		i++;
+	if (av[i] == '+' || av[i] == '-')
+		i++;
+	while ((av[i] >= '0') && (av[i] <= '9'))
+	{
+		result = result * 10 + (av[i] - '0');
+		i++;
+	}
+	if (result < 1 || result > INT_MAX)
+		error_and_exit(data, RED ERR_INP2 RES, 2);
+	return (result);
 }

@@ -12,6 +12,29 @@
 
 #include "philo.h"
 
+void	my_usleep(t_data *data, long sleep_time)
+{
+	long	start;
+	long	time_passed;
+	long	remaining;
+
+	start = get_time(data, MICROSECONDS);
+	while (get_time(data, MICROSECONDS) - start < sleep_time)
+	{
+		if (end_dinner(data, NULL, MEAL_END))
+			break ;
+		time_passed = get_time(data, MICROSECONDS) - start;
+		remaining = sleep_time - time_passed;
+		if (remaining > 1000)
+			usleep(remaining / 2);
+		else
+		{
+			while (get_time(data, MICROSECONDS) - start < sleep_time)
+				;
+		}
+	}
+}
+
 long	get_time(t_data *data, t_time time_unit)
 {
 	struct timeval	current_time;
@@ -43,41 +66,4 @@ long	get_time_var(t_data *data, t_mtx *mtx, long *time)
 	result = *time;
 	handle_mutex(data, mtx, UNLOCK);
 	return (result);
-}
-
-void	my_usleep(t_data *data, long sleep_time)
-{
-	long	start;
-	long	time_passed;
-	long	remaining;
-
-	start = get_time(data, MICROSECONDS);
-	while (get_time(data, MICROSECONDS) - start < sleep_time)
-	{
-		if (end_dinner(data, NULL, MEAL_END))
-			break ;
-		time_passed = get_time(data, MICROSECONDS) - start;
-		remaining = sleep_time - time_passed;
-		if (remaining > 1000)
-			usleep(remaining / 2);
-		else
-		{
-			while (get_time(data, MICROSECONDS) - start < sleep_time)
-				;
-		}
-	}
-}
-
-void	hold_your_horses(t_philo *philo)
-{
-	if (philo->data->nb_ph % 2 == 0)
-	{
-		if (philo->ph_id % 2 == 0)
-			my_usleep(philo->data, 30000);
-	}
-	else
-	{
-		if (philo->ph_id % 2)
-			ph_thinking(philo, true);
-	}
 }
