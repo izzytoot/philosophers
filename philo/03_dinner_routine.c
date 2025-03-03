@@ -33,17 +33,18 @@ bool	check_time_left(t_philo *philo)
 {
 	long	time_passed;
 	long	time_to_die;
-
-	handle_mutex(philo->data, &philo->ph_mtx, LOCK);
-	//if (philo->ph_eating)  // ver se é preciso check ph_eating
+	//if (get_bool(philo->data, &philo->ph_mtx, &philo->ph_full))
 	//	return (false);
+	//handle_mutex(philo->data, &philo->ph_mtx, LOCK);
+	if (philo->ph_eating)
+		return (false);
 	time_passed = get_time(philo->data, MILLISECONDS) - philo->last_meal;
 	time_to_die = philo->data->time_to_die / 1000;
-	handle_mutex(philo->data, &philo->ph_mtx, UNLOCK);
+	//handle_mutex(philo->data, &philo->ph_mtx, UNLOCK);
 	if (time_passed >= time_to_die)
 	{
 		print_ph_status(philo, DIED);
-		set_bool_var(philo->data, &philo->ph_mtx, &philo->ph_dead, true);
+		philo->ph_dead = true;
 		return (true);
 	}
 	return(false);
@@ -61,28 +62,28 @@ bool	check_threads(t_data *data, t_mtx *mtx, long *nb_th, long nb_ph)
 	return (ret);
 }
 
-void	*monitor(void *ph_ptr)
+void	*monitor(void *data_ptr)
 {
-	t_philo	*philo;
-		
-	philo = (t_philo *)ph_ptr;
-	while (!check_threads(philo->data, &philo->data->data_mtx, &philo->data->th_running, philo->data->nb_ph))
+	t_data	*data;
+	int	i;
+	data = (t_data *)data_ptr;
+	while (!check_threads(data, &data->data_mtx, &data->th_running, data->nb_ph))
 		;
-	while(!end_dinner(philo->data, NULL, MEAL_END))
+	while(!end_dinner(data, NULL, MEAL_END))
 	{
-		if (!get_bool(philo->data, &philo->ph_mtx, &philo->ph_full))
+		i = -1;
+		while(++i < data->nb_ph && !end_dinner(data, NULL, MEAL_END))
 		{
-			if (check_time_left(philo))
+			if (check_time_left(data->ph + i))
 			{
-				set_bool_var(philo->data, &philo->data->data_mtx, &philo->data->end_dinner, true);
-				break;
-			}	
+				//print_ph_status(data->ph, DIED);
+				set_bool_var(data, &data->data_mtx, &data->end_dinner, true);
+			}
 		}
-		if (philo->data->nb_ph_full >= philo->data->nb_ph)
+		if (data->nb_ph_full >= data->nb_ph)
 		{
-			printf(GR"end due to philos full at %d meals\n"RES, philo->meal_count);
-			set_bool_var(philo->data, &philo->data->data_mtx, &philo->data->all_ph_full, true);
-			set_bool_var(philo->data, &philo->data->data_mtx, &philo->data->end_dinner, true);
+			set_bool_var(data, &data->data_mtx, &data->all_ph_full, true);
+			set_bool_var(data, &data->data_mtx, &data->end_dinner, true);
 		}
 	//	my_usleep(philo->data, 100);
 	}
@@ -107,6 +108,7 @@ void	*dinner_routine(void *ph_ptr)
 		print_ph_status(philo, SLEEPING);
 		my_usleep(philo->data, philo->data->time_to_sleep);
 		ph_thinking(philo, false);
+		my_usleep(philo->data, 10);
 	}
 	return (NULL);
 }
@@ -116,7 +118,7 @@ void	start_dinner(t_data *data)
 	int	i;
 	
 	set_time_var(data, &data->data_mtx, &data->start_meal_time, get_time(data, MILLISECONDS));
-	handle_thread(data, &data->mon_thread, &monitor, &data->ph[0], CREATE);
+	handle_thread(data, &data->mon_thread, &monitor, data, CREATE);
 	if (data->nb_ph == 1)
 	{	
 		handle_thread(data, &data->data_thread, &mr_lonely, &data->ph[0], CREATE);
