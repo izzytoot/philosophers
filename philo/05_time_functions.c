@@ -26,7 +26,7 @@ void	my_usleep(t_data *data, long sleep_time)
 		time_passed = get_time(data, MICROSECONDS) - start;
 		remaining = sleep_time - time_passed;
 		if (remaining > 1000)
-			usleep(remaining / 2);
+			usleep(remaining / 2000000);
 		else
 		{
 			while (get_time(data, MICROSECONDS) - start < sleep_time)
