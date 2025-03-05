@@ -103,7 +103,7 @@ void	*dinner_routine(void *ph_ptr)
 		&& !end_dinner(philo->data, philo, PH_FULL))
 	{
 		ph_eating(philo);
-		if (philo->ph_full)
+		if (philo->ph_full || || !end_dinner(philo->data, NULL, MEAL_END))
 			break ;
 		print_ph_status(philo, SLEEPING);
 		my_usleep(philo->data, philo->data->time_to_sleep);
