@@ -1,0 +1,16 @@
+
+##### EVAL TESTS #####
+
+./philo 1 800 200 200 - philo shouldn't eat and should die.
+./philo 5 800 200 200 - philos shouldn't die.
+./philo 5 800 200 200 7 - philos should eat 7 times and program should stop on its own.
+./philo 4 410 200 200 - philos shouldn't die.
+./philo 4 310 200 100 - philos should die at 310ms.
+
+#### EDGE CASES ####
+./philo 11 300 100 100 - diference of 1/2 of the sum of tte + tts, philos will probably die.
+./philo 199 190 60 60 - diference of (1/2 of the sum of tte + tts) + 10ms), philos shouldn't die.
+./philo 3 800 200 200 - 2x the sum of tte + tts, philos shouldn't die.
+./philo 3 700 200 100 - 2x the sum of tte + tts, philos shouldn't die.
+
+Compile with -fsanitize=thread to check for race conditions.

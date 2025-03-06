@@ -67,7 +67,6 @@ void	init_philos(t_data *data)
 		philo->meal_count = 0;
 		philo->ph_eating = false;
 		philo->ph_full = false;
-		philo->ph_dead = false;
 		philo->data = data;
 		philo->last_meal = get_time(philo->data, MILLISECONDS);
 		philo->l_fork_mtx = &data->forks[i];

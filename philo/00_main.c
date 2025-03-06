@@ -16,6 +16,10 @@ int	main(int ac, char **av)
 {
 	t_data	data;
 
+	data.ph_check = false;
+	data.forks_check = false;
+	data.write_mtx_check = false;
+	data.data_mtx_check = false;
 	if (ac == 5 || ac == 6)
 	{
 		input_parsing_and_sort(&data, av);

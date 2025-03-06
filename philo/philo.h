@@ -108,7 +108,6 @@ typedef struct s_philo
 	int			meal_count;
 	bool		ph_eating;
 	bool		ph_full;
-	bool		ph_dead;
 	long		last_meal;
 	t_mtx		ph_mtx;
 	t_mtx		*r_fork_mtx;
